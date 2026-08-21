@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .btn { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Quotation Button Test</h1>
+    
+    <div class="test-section">
+        <h2>Test Buttons</h2>
+        <button id="aq-btn-preview" class="btn">Preview</button>
+        <button id="aq-btn-print-blank" class="btn">Print Blank</button>
+        <button id="aq-set-quote-number" class="btn">Set Quote No.</button>
+        <button id="aq-add-po" class="btn">Add Purchase Order</button>
+        <button id="aq-delete-quotation" class="btn">Delete</button>
+        <button id="aq-send-mgr" class="btn">Send to Manager</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Results</h2>
+        <div id="results"></div>
+    </div>
+    
+    <script>
+        const results = document.getElementById('results');
+        
+        function testButton(id, name) {
+            const btn = document.getElementById(id);
+            if (btn) {
+                results.innerHTML += `<p class="success">✓ ${name} button found</p>`;
+                btn.onclick = function() {
+                    results.innerHTML += `<p class="success">✓ ${name} button clicked!</p>`;
+                    alert(name + ' button works!');
+                };
+            } else {
+                results.innerHTML += `<p class="error">✗ ${name} button NOT found</p>`;
+            }
+        }
+        
+        // Test all buttons
+        testButton('aq-btn-preview', 'Preview');
+        testButton('aq-btn-print-blank', 'Print Blank');
+        testButton('aq-set-quote-number', 'Set Quote No.');
+        testButton('aq-add-po', 'Add Purchase Order');
+        testButton('aq-delete-quotation', 'Delete');
+        testButton('aq-send-mgr', 'Send to Manager');
+        
+        results.innerHTML += '<p><strong>All buttons tested. Click them to verify they work.</strong></p>';
+    </script>
+</body>
+</html>

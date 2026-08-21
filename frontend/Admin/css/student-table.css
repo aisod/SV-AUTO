@@ -1,0 +1,1115 @@
+/**
+ * Student-style data tables — Job Cards, Quotations, Invoices
+ * Works with .erp-table.erp-student-table
+ *
+ * Blueprint (Admin + Manager): 16px shells, 10px controls, pill status tags.
+ */
+.erp-student-table-wrap,
+.ops-doc-page {
+    --st-shell-radius: 16px;
+    --st-control-radius: 10px;
+    --st-pill-radius: 999px;
+    --st-cell-pad-y: 10px;
+    --st-cell-pad-x: 12px;
+    --st-header-min-h: 52px;
+    --st-row-h: 58px;
+    --st-row-min-h: 58px;
+}
+
+.erp-student-table-wrap {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    width: 100%;
+}
+
+.erp-student-table-wrap .erp-table-container.qt-table-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    border: 1px solid #e2e8f0;
+    border-bottom: none;
+    border-radius: var(--st-shell-radius) var(--st-shell-radius) 0 0;
+    overflow: auto;
+    background: #fff;
+    scrollbar-width: thin;
+    scrollbar-color: #e2e8f0 #f8fafc;
+}
+
+.erp-student-table-wrap .erp-table-container.qt-table-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.erp-student-table-wrap .erp-table-container.qt-table-scroll::-webkit-scrollbar-track {
+    background: #f8fafc;
+    border-radius: 4px;
+}
+
+.erp-student-table-wrap .erp-table-container.qt-table-scroll::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 4px;
+}
+
+.erp-student-table-wrap .erp-table-container.qt-table-scroll::-webkit-scrollbar-thumb:hover {
+    background: #cbd5e1;
+}
+
+.erp-student-table-wrap .erp-table-container.qt-table-scroll .erp-student-table tbody {
+    background: #fff;
+}
+
+/* Pagination bar — always visible below the scrollable table body */
+.qt-list-card .erp-card-body .erp-student-table-wrap .st-table-footer,
+.erp-student-table-wrap > .st-table-footer {
+    flex-shrink: 0;
+    width: 100%;
+    margin-top: 0;
+    border: 1px solid #e2e8f0;
+    border-top: 1px solid #e2e8f0;
+    border-radius: 0 0 var(--st-shell-radius) var(--st-shell-radius);
+    background: #fff;
+    box-shadow: none;
+}
+
+/* Kill ERP blue sticky header shadow on student list tables */
+.erp-table-container.qt-table-scroll .erp-student-table thead th {
+    box-shadow: none !important;
+}
+
+/* Header — ERP blue bar (student layout, brand colors) */
+table.erp-student-table.erp-table thead,
+table.erp-student-table.jc-list-table thead,
+#jobCardsTable.erp-student-table thead,
+#quotationTable.erp-student-table thead,
+#invoiceTable.erp-student-table thead {
+    background: #f8fafc;
+}
+
+table.erp-student-table.erp-table thead th,
+table.erp-student-table.jc-list-table thead th,
+#jobCardsTable.erp-student-table thead th,
+#quotationTable.erp-student-table thead th,
+#invoiceTable.erp-student-table thead th {
+    background: #f8fafc !important;
+    color: #475569 !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+    padding: 8px var(--st-cell-pad-x) !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+    white-space: nowrap;
+    cursor: default;
+    text-align: left;
+    vertical-align: bottom !important;
+    line-height: 1.25;
+    height: auto;
+    min-height: var(--st-header-min-h);
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    overflow: hidden;
+}
+
+table.erp-student-table thead tr:first-child th:first-child {
+    border-top-left-radius: var(--st-shell-radius);
+}
+
+table.erp-student-table thead tr:first-child th:last-child {
+    border-top-right-radius: var(--st-shell-radius);
+}
+
+.erp-student-table.erp-table thead th.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.erp-student-table.erp-table thead th.sortable:hover {
+    background: #f1f5f9 !important;
+}
+
+.erp-student-table.erp-table thead th.sortable::after {
+    display: none !important;
+}
+
+/* Header cell inner layout — baseline-aligned main labels + optional sub */
+.erp-student-table thead th .st-th-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 2px;
+    min-width: 0;
+    width: 100%;
+    min-height: 36px;
+}
+
+/* Single-line headers reserve sub-label space so labels line up */
+.erp-student-table thead th.st-th-single .st-th-wrap::after {
+    content: '\00a0';
+    display: block;
+    font-size: 11px;
+    line-height: 1.2;
+    min-height: 13px;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.erp-student-table thead th.jc-col-progress .st-th-wrap,
+.erp-student-table thead th.st-col-actions .st-th-wrap,
+.erp-student-table thead th.qt-col-actions .st-th-wrap,
+.erp-student-table thead th.jc-actions-col .st-th-wrap,
+.erp-student-table thead th.st-col-check .st-th-wrap,
+.erp-student-table thead th.jc-col-check .st-th-wrap {
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.erp-student-table .st-th-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    max-width: 100%;
+    line-height: 1.2;
+    flex-shrink: 0;
+}
+
+.erp-student-table .st-th-text {
+    font-weight: 600;
+    color: #475569;
+    white-space: nowrap;
+}
+
+.erp-student-table .st-th-sub {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: #94a3b8;
+    line-height: 1.2;
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* Legacy hints inside student headers */
+.erp-student-table thead .qt-col-hint {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    color: #94a3b8;
+    text-transform: none;
+    letter-spacing: 0;
+    margin: 2px 0 0;
+}
+
+/* Sort arrows — hidden until hover or active sort (click header to sort) */
+.erp-student-table thead th.sortable .st-sort-icons {
+    display: inline-flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    width: 10px;
+    line-height: 0.6;
+    gap: 0;
+    opacity: 0;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.15s ease;
+}
+
+.erp-student-table thead th.sortable:hover .st-sort-icons,
+.erp-student-table th.sort-asc .st-sort-icons,
+.erp-student-table th.sort-desc .st-sort-icons {
+    opacity: 0.7;
+}
+
+.erp-student-table th.sort-asc .st-sort-up,
+.erp-student-table th.sort-desc .st-sort-down {
+    color: #2563eb;
+    opacity: 1;
+}
+
+.erp-student-table .st-sort-icons i {
+    font-size: 9px;
+    color: #64748b;
+    display: block;
+}
+
+.erp-student-table thead th.sortable:hover .st-sort-icons i {
+    color: #475569;
+}
+
+.erp-student-table th.sort-asc .st-sort-up {
+    color: #64748b;
+}
+
+.erp-student-table th.sort-desc .st-sort-down {
+    color: #64748b;
+}
+
+/* Body — zebra + hover; padding lives on .qt-td-inner so row content shares one vertical centerline */
+table.erp-student-table.erp-table tbody td,
+table.erp-student-table.jc-list-table tbody td,
+#jobCardsTable.erp-student-table tbody td,
+#quotationTable.erp-student-table tbody td,
+#invoiceTable.erp-student-table tbody td {
+    padding: 0 !important;
+    border-top: 1px solid #f1f5f9 !important;
+    color: #4b5563 !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    vertical-align: middle !important;
+}
+
+.erp-student-table tbody tr:not(.qt-helper-row):not(.inv-helper-row) > td.qt-col-check,
+.erp-student-table tbody tr:not(.qt-helper-row):not(.inv-helper-row) > td.st-col-check,
+.erp-student-table tbody tr:not(.qt-helper-row):not(.inv-helper-row) > td.jc-col-check {
+    padding: var(--st-cell-pad-y) 4px !important;
+    height: auto;
+}
+
+.erp-student-table tbody tr.qt-helper-row td,
+.erp-student-table tbody tr.inv-helper-row td {
+    padding: 28px 16px !important;
+    height: auto !important;
+}
+
+/* Uniform row height — every column (incl. action) shares one vertical centerline */
+#quotationTable.erp-student-table tbody tr[data-quote-row="1"] > td,
+#invoiceTable.erp-student-table tbody tr[data-inv-row="1"] > td,
+#invoiceTable.erp-student-table tbody tr[data-mgr-row="1"] > td,
+#jobCardTable.erp-student-table tbody tr[data-mgr-row="1"] > td,
+#jobCardsTable.erp-student-table tbody tr:not(.qt-helper-row):not(.st-page-hidden) > td {
+    height: var(--st-row-h);
+    box-sizing: border-box;
+    vertical-align: middle !important;
+}
+
+#quotationTable.erp-student-table tbody tr[data-quote-row="1"] > td > .qt-td-inner,
+#quotationTable.erp-student-table tbody tr[data-quote-row="1"] > td > .qt-paper-cell,
+#invoiceTable.erp-student-table tbody tr[data-inv-row="1"] > td > .qt-td-inner,
+#invoiceTable.erp-student-table tbody tr[data-mgr-row="1"] > td > .qt-td-inner,
+#jobCardTable.erp-student-table tbody tr[data-mgr-row="1"] > td > .qt-td-inner,
+#jobCardTable.erp-student-table tbody tr[data-mgr-row="1"] > td > .qt-paper-cell,
+#jobCardsTable.erp-student-table tbody tr:not(.qt-helper-row):not(.st-page-hidden) > td > .qt-td-inner,
+#jobCardsTable.erp-student-table tbody tr:not(.qt-helper-row):not(.st-page-hidden) > td > .qt-paper-cell {
+    height: 100%;
+    min-height: 0;
+}
+
+.erp-student-table.erp-table tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+.erp-student-table.erp-table tbody tr:hover,
+.erp-student-table.erp-table tbody tr:nth-child(even):hover,
+#jobCardsTable.erp-student-table tbody tr:hover td,
+#quotationTable.erp-student-table tbody tr:hover td,
+#invoiceTable.erp-student-table tbody tr:hover td {
+    background: #f9fafb !important;
+}
+
+.erp-student-table.erp-table tbody tr.st-page-hidden {
+    display: none !important;
+}
+
+.erp-student-table.erp-table tbody tr.qt-row-selected td,
+.erp-student-table.erp-table tbody tr.is-selected td {
+    background: #eff6ff !important;
+}
+
+.erp-student-table .st-cell-primary {
+    font-weight: 700;
+    color: #111827;
+    font-size: 13px;
+}
+
+.erp-student-table .qt-id,
+.erp-student-table .mgr-id,
+.erp-student-table .inv-id {
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.35;
+}
+
+/* Row checkboxes */
+.erp-student-table .st-row-check,
+.erp-student-table thead .st-head-check {
+    width: 16px;
+    height: 16px;
+    accent-color: #2563eb;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.erp-student-table th.st-col-check,
+.erp-student-table td.st-col-check,
+.erp-student-table th.jc-col-check,
+.erp-student-table td.jc-col-check,
+.erp-student-table th.qt-col-check,
+.erp-student-table td.qt-col-check {
+    width: 48px;
+    text-align: center;
+    padding-left: 14px !important;
+    padding-right: 10px !important;
+}
+
+.erp-student-table thead th.st-col-check .st-th-wrap,
+.erp-student-table thead th.jc-col-check .st-th-wrap {
+    align-items: center;
+    width: 100%;
+}
+
+.erp-student-table thead th.jc-col-progress,
+.erp-student-table thead th.st-col-actions,
+.erp-student-table thead th.jc-actions-col,
+.erp-student-table thead th.st-col-check,
+.erp-student-table thead th.jc-col-check {
+    text-align: center !important;
+}
+
+.erp-student-table thead th.jc-col-progress .st-th-wrap,
+.erp-student-table thead th.st-col-actions .st-th-wrap,
+.erp-student-table thead th.qt-col-actions .st-th-wrap,
+.erp-student-table thead th.st-col-check .st-th-wrap,
+.erp-student-table thead th.jc-col-check .st-th-wrap {
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+/* Job cards list — fixed column grid, full width */
+#jobCardsTable.erp-student-table {
+    table-layout: fixed;
+    width: 100%;
+    min-width: 100%;
+}
+
+.erp-student-table-wrap .erp-table-container.qt-table-scroll .erp-student-table {
+    width: 100%;
+    min-width: 0;
+}
+
+#jobCardsTable.erp-student-table {
+    min-width: 960px;
+}
+
+#jobCardsTable.erp-student-table thead th,
+#jobCardsTable.erp-student-table tbody td {
+    overflow: hidden;
+}
+
+#jobCardsTable.erp-student-table thead th.st-col-actions,
+#jobCardsTable.erp-student-table thead th.jc-actions-col,
+#jobCardsTable.erp-student-table tbody td.st-col-actions,
+#jobCardsTable.erp-student-table tbody td.jc-col-actions {
+    overflow: visible !important;
+    width: 56px !important;
+    min-width: 56px !important;
+    max-width: 56px !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+}
+
+#jobCardsTable.erp-student-table thead th.st-col-actions .st-th-text,
+#jobCardsTable.erp-student-table thead th.jc-actions-col .st-th-text {
+    overflow: visible !important;
+    text-overflow: clip !important;
+    white-space: nowrap;
+}
+
+#jobCardsTable.erp-student-table thead th:last-child {
+    background: #eaf1ff !important;
+    border-top-right-radius: 10px;
+}
+
+#jobCardsTable.erp-student-table tbody td:last-child {
+    background: #fff !important;
+}
+
+#jobCardsTable.erp-student-table tbody tr:nth-child(even) td:last-child {
+    background: #fafafa !important;
+}
+
+#jobCardsTable.erp-student-table tbody tr:hover td:last-child {
+    background: #f9fafb !important;
+}
+
+#jobCardsTable.erp-student-table .st-actions {
+    gap: 5px;
+    flex-wrap: nowrap;
+}
+
+#jobCardsTable.erp-student-table .st-act-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+#quotationTable.erp-student-table .st-actions {
+    gap: 5px;
+    flex-wrap: nowrap;
+}
+
+#quotationTable.erp-student-table .st-act-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+#quotationTable.erp-student-table td.st-col-actions:has(.st-actions) {
+    min-width: 52px;
+}
+
+#invoiceTable.erp-student-table .st-actions {
+    gap: 5px;
+    flex-wrap: nowrap;
+}
+
+#invoiceTable.erp-student-table .st-act-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+#invoiceTable.erp-student-table td.st-col-actions:has(.st-actions) {
+    min-width: 52px;
+}
+
+#invoiceTable.erp-student-table thead th,
+#invoiceTable.erp-student-table tbody td {
+    box-sizing: border-box;
+    vertical-align: middle !important;
+}
+
+#invoiceTable.erp-student-table thead th.inv-col-progress,
+#invoiceTable.erp-student-table tbody td.inv-col-progress,
+#invoiceTable.erp-student-table thead th.st-col-actions,
+#invoiceTable.erp-student-table tbody td.st-col-actions {
+    text-align: center !important;
+}
+
+#invoiceTable.erp-student-table thead th.inv-col-progress .st-th-wrap,
+#invoiceTable.erp-student-table thead th.st-col-actions .st-th-wrap {
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#invoiceTable.erp-student-table thead th.inv-col-progress .st-th-main,
+#invoiceTable.erp-student-table thead th.st-col-actions .st-th-main {
+    justify-content: center;
+    width: 100%;
+}
+
+#invoiceTable.erp-student-table thead th.inv-col-amount,
+#invoiceTable.erp-student-table tbody td.inv-col-amount {
+    text-align: right !important;
+}
+
+#invoiceTable.erp-student-table thead th.inv-col-amount .st-th-wrap {
+    align-items: flex-end;
+}
+
+#invoiceTable.erp-student-table thead th.inv-col-amount .st-th-main {
+    justify-content: flex-end;
+    width: 100%;
+}
+
+#invoiceTable.erp-student-table tbody td.inv-col-amount {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+#invoiceTable.erp-student-table tbody td.inv-col-job,
+#invoiceTable.erp-student-table tbody td.inv-col-client {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#invoiceTable.erp-student-table thead th.st-col-actions,
+#invoiceTable.erp-student-table tbody td.st-col-actions {
+    width: 52px !important;
+    min-width: 52px !important;
+    max-width: 52px !important;
+    padding: 0 !important;
+}
+
+/* List tables — shared cell box model */
+.erp-student-table thead th,
+.erp-student-table tbody td {
+    box-sizing: border-box;
+}
+
+#quotationTable.erp-student-table thead th.qt-col-check,
+#quotationTable.erp-student-table tbody td.qt-col-check,
+#quotationTable.erp-student-table thead th.qt-col-progress,
+#quotationTable.erp-student-table tbody td.qt-col-progress,
+#quotationTable.erp-student-table thead th.st-col-actions,
+#quotationTable.erp-student-table tbody td.st-col-actions {
+    text-align: center !important;
+}
+
+#quotationTable.erp-student-table thead th.qt-col-check .st-th-wrap,
+#quotationTable.erp-student-table thead th.qt-col-progress .st-th-wrap,
+#quotationTable.erp-student-table thead th.st-col-actions .st-th-wrap,
+#quotationTable.erp-student-table thead th.qt-col-actions .st-th-wrap {
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#quotationTable.erp-student-table thead th.qt-col-progress .st-th-main,
+#quotationTable.erp-student-table thead th.st-col-actions .st-th-main {
+    justify-content: center;
+    width: 100%;
+}
+
+#quotationTable.erp-student-table thead th.qt-col-amount,
+#quotationTable.erp-student-table tbody td.qt-col-amount {
+    text-align: right !important;
+}
+
+#quotationTable.erp-student-table thead th.qt-col-amount .st-th-wrap {
+    align-items: flex-end;
+}
+
+#quotationTable.erp-student-table thead th.qt-col-amount .st-th-main {
+    justify-content: flex-end;
+    width: 100%;
+}
+
+#quotationTable.erp-student-table tbody td.qt-col-amount {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+#quotationTable.erp-student-table thead th.qt-col-id,
+#quotationTable.erp-student-table thead th.qt-col-job,
+#quotationTable.erp-student-table thead th.qt-col-saved,
+#quotationTable.erp-student-table thead th.qt-col-paper,
+#quotationTable.erp-student-table thead th.qt-col-client-resp {
+    text-align: left !important;
+}
+
+#quotationTable.erp-student-table tbody td.qt-col-job {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#quotationTable.erp-student-table tbody td.qt-col-id,
+#quotationTable.erp-student-table tbody td.qt-col-amount {
+    white-space: nowrap;
+}
+
+#quotationTable.erp-student-table thead th.st-col-actions,
+#quotationTable.erp-student-table thead th.qt-col-actions,
+#quotationTable.erp-student-table tbody td.st-col-actions,
+#quotationTable.erp-student-table tbody td.qt-col-actions {
+    width: 52px !important;
+    min-width: 52px !important;
+    max-width: 52px !important;
+    padding: 0 !important;
+}
+
+#jobCardsTable.erp-student-table thead th.jc-col-card-no,
+#jobCardsTable.erp-student-table thead th.jc-col-status,
+#jobCardsTable.erp-student-table thead th.jc-col-client,
+#jobCardsTable.erp-student-table thead th.jc-col-vehicle,
+#jobCardsTable.erp-student-table thead th.jc-col-work,
+#jobCardsTable.erp-student-table thead th.jc-col-quote {
+    width: auto;
+}
+
+/* ── Column alignment (Admin + Manager list tables) ── */
+.erp-student-table thead th.inv-col-progress,
+.erp-student-table tbody td.inv-col-progress,
+.erp-student-table thead th.jc-col-progress,
+.erp-student-table tbody td.jc-col-progress,
+.erp-student-table thead th.qt-col-progress,
+.erp-student-table tbody td.qt-col-progress,
+.erp-student-table thead th.qt-col-check,
+.erp-student-table tbody td.qt-col-check {
+    text-align: center !important;
+}
+
+.erp-student-table thead th.inv-col-progress .st-th-wrap,
+.erp-student-table thead th.jc-col-progress .st-th-wrap,
+.erp-student-table thead th.qt-col-progress .st-th-wrap,
+.erp-student-table thead th.qt-col-check .st-th-wrap,
+.erp-student-table thead th.st-col-actions .st-th-wrap,
+.erp-student-table thead th.qt-col-actions .st-th-wrap,
+.erp-student-table thead th.jc-actions-col .st-th-wrap {
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.erp-student-table thead th.inv-col-progress .st-th-main,
+.erp-student-table thead th.jc-col-progress .st-th-main,
+.erp-student-table thead th.qt-col-progress .st-th-main,
+.erp-student-table thead th.qt-col-check .st-th-main {
+    justify-content: center;
+    width: 100%;
+}
+
+/* Client + date columns — centered headers and values */
+.erp-student-table thead th.qt-col-client,
+.erp-student-table tbody td.qt-col-client,
+.erp-student-table thead th.qt-col-date,
+.erp-student-table tbody td.qt-col-date,
+.erp-student-table thead th.inv-col-client,
+.erp-student-table tbody td.inv-col-client,
+.erp-student-table thead th.inv-col-issued,
+.erp-student-table tbody td.inv-col-issued,
+.erp-student-table thead th.inv-col-due,
+.erp-student-table tbody td.inv-col-due,
+.erp-student-table thead th.jc-col-client,
+.erp-student-table tbody td.jc-col-client,
+.erp-student-table thead th.jc-col-created,
+.erp-student-table tbody td.jc-col-created {
+    text-align: center !important;
+}
+
+.erp-student-table thead th.qt-col-client .st-th-wrap,
+.erp-student-table thead th.qt-col-date .st-th-wrap,
+.erp-student-table thead th.inv-col-client .st-th-wrap,
+.erp-student-table thead th.inv-col-issued .st-th-wrap,
+.erp-student-table thead th.inv-col-due .st-th-wrap,
+.erp-student-table thead th.jc-col-client .st-th-wrap,
+.erp-student-table thead th.jc-col-created .st-th-wrap {
+    align-items: center;
+}
+
+.erp-student-table thead th.qt-col-client .st-th-main,
+.erp-student-table thead th.qt-col-date .st-th-main,
+.erp-student-table thead th.inv-col-client .st-th-main,
+.erp-student-table thead th.inv-col-issued .st-th-main,
+.erp-student-table thead th.inv-col-due .st-th-main,
+.erp-student-table thead th.jc-col-client .st-th-main,
+.erp-student-table thead th.jc-col-created .st-th-main {
+    justify-content: center;
+    width: 100%;
+}
+
+.erp-student-table thead th.qt-col-date .st-th-sub,
+.erp-student-table thead th.inv-col-issued .st-th-sub,
+.erp-student-table thead th.inv-col-due .st-th-sub,
+.erp-student-table thead th.jc-col-created .st-th-sub {
+    text-align: center;
+    width: 100%;
+}
+
+.erp-student-table tbody td.qt-col-client .qt-td-inner,
+.erp-student-table tbody td.inv-col-client .qt-td-inner,
+.erp-student-table tbody td.jc-col-client .qt-td-inner {
+    justify-content: center;
+    text-align: center;
+}
+
+.erp-student-table tbody td.qt-col-date .qt-td-inner,
+.erp-student-table tbody td.inv-col-issued .qt-td-inner,
+.erp-student-table tbody td.inv-col-due .qt-td-inner,
+.erp-student-table tbody td.jc-col-created .qt-td-inner {
+    flex-direction: column;
+    gap: 2px;
+    justify-content: center;
+    text-align: center;
+}
+
+.erp-student-table tbody td.qt-col-client,
+.erp-student-table tbody td.inv-col-client,
+.erp-student-table tbody td.jc-col-client {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.erp-student-table tbody td.qt-col-date,
+.erp-student-table tbody td.inv-col-issued,
+.erp-student-table tbody td.inv-col-due,
+.erp-student-table tbody td.jc-col-created {
+    white-space: normal;
+}
+
+.erp-student-table tbody td.qt-col-date .qt-list-time,
+.erp-student-table tbody td.inv-col-issued .qt-list-time,
+.erp-student-table tbody td.inv-col-due .qt-list-time,
+.erp-student-table tbody td.jc-col-created .qt-list-time {
+    display: block;
+    margin-left: 0;
+    margin-top: 2px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748b;
+    line-height: 1.2;
+}
+
+.erp-student-table thead th.inv-col-amount,
+.erp-student-table tbody td.inv-col-amount,
+.erp-student-table thead th.qt-col-amount,
+.erp-student-table tbody td.qt-col-amount {
+    text-align: right !important;
+}
+
+.erp-student-table thead th.inv-col-amount .st-th-wrap,
+.erp-student-table thead th.qt-col-amount .st-th-wrap,
+.erp-student-table thead th.st-th-single.inv-col-amount .st-th-wrap,
+.erp-student-table thead th.st-th-single.qt-col-amount .st-th-wrap {
+    align-items: flex-end;
+}
+
+.erp-student-table thead th.inv-col-amount .st-th-main,
+.erp-student-table thead th.qt-col-amount .st-th-main {
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.erp-student-table tbody td.inv-col-amount,
+.erp-student-table tbody td.qt-col-amount {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+.erp-student-table thead th.st-col-actions,
+.erp-student-table tbody td.st-col-actions,
+.erp-student-table thead th.qt-col-actions,
+.erp-student-table tbody td.qt-col-actions,
+.erp-student-table thead th.jc-actions-col,
+.erp-student-table tbody td.jc-actions-col {
+    text-align: center !important;
+}
+
+.erp-student-table thead th.st-col-actions .st-th-wrap,
+.erp-student-table thead th.qt-col-actions .st-th-wrap,
+.erp-student-table thead th.jc-actions-col .st-th-wrap {
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.erp-student-table thead th.st-col-actions .st-th-main,
+.erp-student-table thead th.qt-col-actions .st-th-main,
+.erp-student-table thead th.jc-actions-col .st-th-main {
+    justify-content: center;
+    width: 100%;
+}
+
+.erp-student-table .qt-td-inner,
+.erp-student-table .qt-paper-cell {
+    display: flex;
+    align-items: center;
+    min-height: var(--st-row-min-h);
+    width: 100%;
+    min-width: 0;
+    padding: var(--st-cell-pad-y) var(--st-cell-pad-x);
+    box-sizing: border-box;
+}
+
+.erp-student-table .qt-td-inner--center {
+    justify-content: center;
+}
+
+.erp-student-table .qt-td-inner--end {
+    justify-content: flex-end;
+}
+
+.erp-student-table tbody td.st-col-actions .qt-td-inner,
+.erp-student-table tbody td.qt-col-actions .qt-td-inner,
+.erp-student-table tbody td.jc-actions-col .qt-td-inner {
+    padding-left: 4px;
+    padding-right: 4px;
+    height: 100%;
+    min-height: 0;
+}
+
+.erp-student-table tbody td.st-col-actions .st-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    margin: 0;
+}
+
+/* Status pills — one blueprint across list tables */
+.erp-student-table .qt-status,
+.erp-student-table .inv-status,
+.erp-student-table .erp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: var(--st-pill-radius);
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.erp-student-table .qt-status::before,
+.erp-student-table .inv-status::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.85;
+    flex-shrink: 0;
+}
+
+.erp-student-table.mgr-list-table thead th.st-col-actions,
+.erp-student-table.mgr-list-table tbody td.st-col-actions {
+    width: 52px !important;
+    min-width: 52px !important;
+    max-width: 52px !important;
+    padding: 0 !important;
+}
+
+.erp-student-table.mgr-list-table td.st-col-actions:has(.st-actions) {
+    min-width: 52px !important;
+}
+
+/* Status pills (student blue style) */
+.erp-student-table .st-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border-radius: var(--st-pill-radius);
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.erp-student-table .st-status-pill i {
+    font-size: 11px;
+}
+
+.erp-student-table .st-status-pill--success {
+    background: #d1fae5;
+    color: #047857;
+}
+
+.erp-student-table .st-status-pill--warning {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.erp-student-table .st-status-pill--danger {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.erp-student-table .st-status-pill--muted {
+    background: #f3f4f6;
+    color: #6b7280;
+}
+
+/* Action icon buttons */
+.erp-student-table .st-actions {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.erp-student-table .st-act-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--st-control-radius);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 14px;
+    transition: transform 0.12s ease, background 0.12s ease, color 0.12s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.erp-student-table .st-act-btn:hover {
+    transform: translateY(-1px);
+}
+
+.erp-student-table .st-act-btn--view {
+    background: #d1fae5;
+    color: #059669;
+}
+
+.erp-student-table .st-act-btn--view:hover {
+    background: #a7f3d0;
+    color: #047857;
+}
+
+.erp-student-table .st-act-btn--edit {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.erp-student-table .st-act-btn--edit:hover {
+    background: #bfdbfe;
+    color: #1d4ed8;
+}
+
+.erp-student-table .st-act-btn--delete {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.erp-student-table .st-act-btn--delete:hover {
+    background: #fecaca;
+    color: #b91c1c;
+}
+
+.erp-student-table .st-act-btn--print {
+    background: #e0e7ff;
+    color: #4f46e5;
+}
+
+.erp-student-table .st-act-btn--print:hover {
+    background: #c7d2fe;
+    color: #4338ca;
+}
+
+.erp-student-table th.st-col-actions,
+.erp-student-table td.st-col-actions {
+    width: auto;
+    min-width: 52px;
+    white-space: nowrap;
+    text-align: center;
+    overflow: visible !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+}
+
+/* Multiple action buttons need more room */
+.erp-student-table td.st-col-actions:has(.st-act-btn--edit),
+.erp-student-table td.st-col-actions:has(.st-act-btn--delete) {
+    min-width: 118px;
+}
+
+.erp-student-table td.st-col-actions:has(.st-act-btn--edit):has(.st-act-btn--delete) {
+    min-width: 130px;
+}
+
+/* Table footer — range, rows/page, pagination */
+.st-table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 18px;
+    border-top: 1px solid #e5e7eb;
+    background: #fff;
+}
+
+.st-table-footer__range {
+    font-size: 13px;
+    font-weight: 500;
+    color: #6b7280;
+}
+
+.st-table-footer__controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.st-table-footer__rpp {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.st-table-footer__rpp select {
+    padding: 6px 28px 6px 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: var(--st-control-radius, 10px);
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+    background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236b7280' d='M3 4.5L6 7.5L9 4.5'/%3E%3C/svg%3E") no-repeat right 8px center;
+    appearance: none;
+    cursor: pointer;
+}
+
+.st-table-footer__rpp select:focus {
+    outline: 2px solid #93c5fd;
+    outline-offset: 1px;
+    border-color: #93c5fd;
+}
+
+.st-table-pagination {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.st-page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4b5563;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: var(--st-control-radius, 10px);
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.st-page-btn:hover:not(:disabled) {
+    background: #f9fafb;
+    border-color: #d1d5db;
+}
+
+.st-page-btn.active {
+    background: #2563eb;
+    color: #fff;
+    border-color: #2563eb;
+}
+
+.st-page-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.st-page-btn.st-page-ellipsis {
+    border: none;
+    background: transparent;
+    cursor: default;
+    min-width: 24px;
+}
+
+.st-page-btn.st-page-ellipsis:hover {
+    background: transparent;
+}
+
+@media (max-width: 640px) {
+    .st-table-footer {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .st-table-footer__controls {
+        justify-content: space-between;
+    }
+}

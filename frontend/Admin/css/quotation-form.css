@@ -1,0 +1,262 @@
+/**
+ * Quotation Form Styles
+ * Optimized for print and screen display
+ */
+
+/* ========================================
+   QUOTATION SHELL CONTAINER
+   ======================================== */
+.quote-shell {
+    background: white;
+    border: 2px solid #000;
+    width: calc(100% - 32px);
+    max-width: 1200px;
+    margin: 0 auto 20px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    box-sizing: border-box;
+}
+
+/* ========================================
+   TABLE LAYOUT
+   ======================================== */
+.quote-shell table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.quote-shell td {
+    padding: 6px 8px;
+    vertical-align: top;
+}
+
+.quote-shell th {
+    padding: 8px;
+    text-align: left;
+    font-weight: 700;
+}
+
+/* ========================================
+   FORM INPUTS
+   ======================================== */
+.quote-shell input[type="text"],
+.quote-shell input[type="number"],
+.quote-shell select {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #000;
+    padding: 4px 2px;
+    font-size: 11px;
+    box-sizing: border-box;
+    background: transparent;
+    display: block;
+}
+
+.quote-shell input[readonly] {
+    border-bottom: none;
+    background: #f5f5f5;
+}
+
+.quote-shell input[type="number"] {
+    text-align: center;
+}
+
+/* Remove number input spinners for cleaner look */
+.quote-shell input[type="number"]::-webkit-inner-spin-button,
+.quote-shell input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quote-shell input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* ========================================
+   SECTION LABELS (Vertical Text)
+   ======================================== */
+.section-label {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    padding: 8px 4px;
+    background: #f0f0f0;
+    border: 1px solid #000;
+    white-space: nowrap;
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+.add-row-btn {
+    background: #F7A100;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 8px;
+    transition: background 0.2s ease;
+}
+
+.add-row-btn:hover {
+    background: #E09000;
+}
+
+.add-row-btn:active {
+    transform: scale(0.98);
+}
+
+.action-buttons {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fafafa;
+    border-top: 2px solid #000;
+    gap: 12px;
+}
+
+/* ========================================
+   LABOUR & PARTS TABLES
+   ======================================== */
+.quote-shell .labour-table,
+.quote-shell .parts-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.quote-shell .labour-table td,
+.quote-shell .parts-table td {
+    border: 1px solid #000;
+    padding: 0;
+}
+
+.quote-shell .labour-table input,
+.quote-shell .parts-table input {
+    border: none;
+    border-bottom: none;
+    padding: 8px;
+}
+
+/* Column widths for labour table */
+.quote-shell .labour-table th:nth-child(1),
+.quote-shell .labour-table td:nth-child(1) {
+    width: 30%;
+}
+
+.quote-shell .labour-table th:nth-child(2),
+.quote-shell .labour-table td:nth-child(2) {
+    width: 30%;
+}
+
+.quote-shell .labour-table th:nth-child(3),
+.quote-shell .labour-table td:nth-child(3) {
+    width: 13%;
+}
+
+.quote-shell .labour-table th:nth-child(4),
+.quote-shell .labour-table td:nth-child(4) {
+    width: 13%;
+}
+
+.quote-shell .labour-table th:nth-child(5),
+.quote-shell .labour-table td:nth-child(5) {
+    width: 14%;
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+@media print {
+    /* Hide ERP sidebar and header */
+    .erp-sidebar,
+    .erp-header,
+    .erp-page-header,
+    .erp-breadcrumb {
+        display: none !important;
+    }
+    
+    /* Expand main content to full width */
+    .erp-main {
+        margin-left: 0 !important;
+    }
+    
+    .erp-content {
+        padding: 0 !important;
+    }
+    
+    /* Expand quotation shell to full printable width */
+    .quote-shell {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 !important;
+        border: 1px solid #000 !important;
+    }
+    
+    /* Hide action buttons on print */
+    .action-buttons {
+        display: none !important;
+    }
+    
+    /* Hide add row button */
+    .add-row-btn {
+        display: none !important;
+    }
+    
+    /* Ensure tables print properly */
+    .quote-shell table {
+        page-break-inside: avoid;
+    }
+    
+    /* Set page size */
+    @page {
+        size: A4 portrait;
+        margin: 10mm;
+    }
+    
+    /* Ensure black text for printing */
+    body {
+        color: #000 !important;
+        background: white !important;
+    }
+}
+
+/* ========================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================== */
+@media screen and (max-width: 1366px) {
+    .quote-shell {
+        width: calc(100% - 24px);
+        font-size: 10px;
+    }
+    
+    .quote-shell input[type="text"],
+    .quote-shell input[type="number"],
+    .quote-shell select {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .quote-shell {
+        width: calc(100% - 16px);
+        font-size: 9px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .action-buttons a,
+    .action-buttons button {
+        width: 100%;
+        text-align: center;
+    }
+}

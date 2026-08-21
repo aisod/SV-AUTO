@@ -1,0 +1,241 @@
+/**
+ * Manager portal — high-contrast readable text (scoped to Manager shell only).
+ */
+body.erp-app.cake-ui {
+    --mgr-text: #0f172a;
+    --mgr-text-body: #1e293b;
+    --mgr-text-secondary: #334155;
+    --mgr-text-meta: #475569;
+    color: var(--mgr-text-body);
+}
+
+body.erp-app.cake-ui .ops-doc-page {
+    --ops-text: #0f172a;
+    --ops-muted: #334155;
+}
+
+/* Manager document lists — tighter folders → files rhythm */
+body.erp-app.cake-ui .ops-doc-main {
+    gap: 16px;
+}
+body.erp-app.cake-ui .ops-doc-folders .ops-doc-block-head {
+    margin-bottom: 10px;
+}
+body.erp-app.cake-ui .ops-doc-files {
+    gap: 10px;
+}
+body.erp-app.cake-ui .ops-doc-files > .ops-doc-block-head {
+    margin-bottom: 8px;
+}
+
+/* Page headers & blocks */
+body.erp-app.cake-ui .ops-doc-subtitle,
+body.erp-app.cake-ui .ops-doc-files-meta,
+body.erp-app.cake-ui .ops-folder-count,
+body.erp-app.cake-ui .ops-filter-result,
+body.erp-app.cake-ui .ops-donut-legend-label,
+body.erp-app.cake-ui .ops-doc-stat-label,
+body.erp-app.cake-ui .ops-doc-activity-meta,
+body.erp-app.cake-ui .ops-doc-activity-time {
+    color: var(--mgr-text-secondary) !important;
+}
+
+body.erp-app.cake-ui .ops-filter-label,
+body.erp-app.cake-ui .mgr-qt-sort-label {
+    color: var(--mgr-text-meta) !important;
+    font-weight: 800 !important;
+}
+
+body.erp-app.cake-ui .ops-filter-row .qt-tab:not(.active) {
+    color: var(--mgr-text-body) !important;
+}
+
+body.erp-app.cake-ui .ops-donut-legend-val,
+body.erp-app.cake-ui .ops-doc-stat-value,
+body.erp-app.cake-ui .ops-doc-activity-title {
+    color: var(--mgr-text) !important;
+}
+
+body.erp-app.cake-ui .ops-doc-search input::placeholder {
+    color: #64748b !important;
+    opacity: 1;
+}
+
+/* Dashboard (vt-dashboard) */
+body.erp-app.cake-ui .vt-stat-label {
+    color: var(--mgr-text-secondary) !important;
+}
+
+body.erp-app.cake-ui .vt-stat-change--info,
+body.erp-app.cake-ui .vt-stat-change--muted {
+    color: var(--mgr-text-meta) !important;
+    font-weight: 600 !important;
+}
+
+body.erp-app.cake-ui .vt-chart-card-sub,
+body.erp-app.cake-ui .vt-chart-legend-item,
+body.erp-app.cake-ui .vt-donut-footer-label,
+body.erp-app.cake-ui .vt-donut-footer-sub,
+body.erp-app.cake-ui .vt-donut-legend-lbl,
+body.erp-app.cake-ui .vt-action-card-meta,
+body.erp-app.cake-ui .vt-section-link {
+    color: var(--mgr-text-secondary) !important;
+}
+
+body.erp-app.cake-ui .rd-dash-welcome-sub,
+body.erp-app.cake-ui .mgr-dash-panel-sub,
+body.erp-app.cake-ui .mgr-dash-followup-chip-meta,
+body.erp-app.cake-ui .mgr-dash-inbox-clear-text,
+body.erp-app.cake-ui .mgr-dash-preview-client,
+body.erp-app.cake-ui .mgr-activity-feed-what,
+body.erp-app.cake-ui .mgr-activity-feed-meta,
+body.erp-app.cake-ui .mgr-activity-feed-time {
+    color: var(--mgr-text-secondary) !important;
+}
+
+body.erp-app.cake-ui .mgr-dash-preview-amount,
+body.erp-app.cake-ui .mgr-activity-feed-role {
+    color: var(--mgr-text-meta) !important;
+}
+
+body.erp-app.cake-ui .mgr-dash-panel-title,
+body.erp-app.cake-ui .vt-section-title,
+body.erp-app.cake-ui .vt-action-card-title,
+body.erp-app.cake-ui .mgr-dash-followup-chip-title {
+    color: var(--mgr-text) !important;
+}
+
+/* Tables */
+body.erp-app.cake-ui .erp-student-table thead th,
+body.erp-app.cake-ui .erp-student-table thead th .st-th-text,
+body.erp-app.cake-ui .mgr-list-table thead th,
+body.erp-app.cake-ui .rd-dash-clients-table thead th,
+body.erp-app.cake-ui #quotationTable thead th {
+    color: var(--mgr-text-meta) !important;
+}
+
+body.erp-app.cake-ui .erp-student-table thead th .st-th-sub,
+body.erp-app.cake-ui #quotationTable thead .st-th-sub {
+    color: var(--mgr-text-secondary) !important;
+}
+
+body.erp-app.cake-ui .erp-student-table tbody td,
+body.erp-app.cake-ui .mgr-list-table tbody td,
+body.erp-app.cake-ui #quotationTable tbody td {
+    color: var(--mgr-text-body) !important;
+}
+
+body.erp-app.cake-ui .st-cell-primary,
+body.erp-app.cake-ui .st-cell-ref,
+body.erp-app.cake-ui .qt-id,
+body.erp-app.cake-ui .mgr-id {
+    color: var(--mgr-text) !important;
+}
+
+body.erp-app.cake-ui .st-cell-muted,
+body.erp-app.cake-ui .st-cell-money,
+body.erp-app.cake-ui .qt-list-time,
+body.erp-app.cake-ui .qt-paper-meta,
+body.erp-app.cake-ui .qt-cell-muted,
+body.erp-app.cake-ui .qt-list-meta,
+body.erp-app.cake-ui .qt-helper-row td {
+    color: var(--mgr-text-secondary) !important;
+}
+
+/* Quotations manager overrides */
+body.erp-app.cake-ui .mgr-qt-tabs .qt-tab:not(.active) {
+    color: var(--mgr-text-body) !important;
+}
+
+body.erp-app.cake-ui .mgr-qt-filter-footer .ops-filter-result {
+    color: var(--mgr-text-secondary) !important;
+    font-weight: 700 !important;
+}
+
+body.erp-app.cake-ui .mgr-qt-toolbar-hint,
+body.erp-app.cake-ui .mgr-list-toolbar-hint {
+    color: var(--mgr-text-secondary) !important;
+}
+
+/* Shell: sidebar, header, breadcrumbs */
+body.erp-app.cake-ui .erp-nav-section-label {
+    color: var(--mgr-text-meta) !important;
+}
+
+body.erp-app.cake-ui .erp-nav-link:not(.is-active),
+body.erp-app.cake-ui .erp-nav-parent:not(.is-active) {
+    color: var(--mgr-text-body) !important;
+    font-weight: 600 !important;
+}
+
+body.erp-app.cake-ui .erp-nav-link:not(.is-active) i,
+body.erp-app.cake-ui .erp-nav-parent:not(.is-active) > i:first-child {
+    color: var(--mgr-text-meta) !important;
+}
+
+body.erp-app.cake-ui .erp-nav-chevron {
+    color: var(--mgr-text-meta) !important;
+}
+
+body.erp-app.cake-ui .erp-sidebar-foot-link {
+    color: var(--mgr-text-body) !important;
+    font-weight: 600 !important;
+}
+
+body.erp-app.cake-ui .erp-breadcrumb,
+body.erp-app.cake-ui .erp-breadcrumb a {
+    color: var(--mgr-text-secondary) !important;
+}
+
+body.erp-app.cake-ui .erp-header-search input::placeholder {
+    color: #64748b !important;
+    opacity: 1;
+}
+
+body.erp-app.cake-ui .erp-user-role,
+body.erp-app.cake-ui .erp-user-name {
+    color: var(--mgr-text-body) !important;
+}
+
+/* Dashboard clients table (inline styles use !important) */
+body.erp-app.cake-ui #dashClientsTable.erp-student-table.rd-dash-clients-table thead th {
+    color: var(--mgr-text-meta) !important;
+    font-weight: 800 !important;
+}
+
+body.erp-app.cake-ui .vt-clients-table th {
+    color: var(--mgr-text-meta) !important;
+    font-weight: 800 !important;
+}
+
+body.erp-app.cake-ui .vt-donut-center-lbl,
+body.erp-app.cake-ui .vt-donut-legend-cnt {
+    color: var(--mgr-text-secondary) !important;
+}
+
+body.erp-app.cake-ui .ops-doc-page .erp-student-table thead th,
+body.erp-app.cake-ui .ops-doc-page .jc-list-table thead th,
+body.erp-app.cake-ui .ops-doc-page .qt-list-table thead th,
+body.erp-app.cake-ui .ops-doc-page .inv-list-table thead th {
+    color: var(--mgr-text-meta) !important;
+    font-weight: 700 !important;
+}
+
+body.erp-app.cake-ui .mgr-activity-feed-what {
+    color: var(--mgr-text-body) !important;
+}
+
+/* Dark mode — keep manager readable */
+html.site-theme-dark body.erp-app.cake-ui,
+html.rd-dash-theme-dark body.erp-app.cake-ui {
+    --mgr-text: #f4f4f5;
+    --mgr-text-body: #e4e4e7;
+    --mgr-text-secondary: #cbd5e1;
+    --mgr-text-meta: #a1a1aa;
+}
+
+html.site-theme-dark body.erp-app.cake-ui .ops-doc-page,
+html.rd-dash-theme-dark body.erp-app.cake-ui .ops-doc-page {
+    --ops-muted: #cbd5e1;
+    --ops-text: #f4f4f5;
+}

@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+# Route canonical URL to the invoice view page (same folder).
+RewriteRule ^view_invoice\.php$ view.php [L,QSA]
+</IfModule>

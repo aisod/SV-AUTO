@@ -1,0 +1,755 @@
+/**
+ * Operations list pages — Documents blueprint layout.
+ * Folders grid + Files table + right rail (overview donut, stats, activity).
+ */
+
+.ops-doc-page {
+    --ops-accent: #ea580c;
+    --ops-accent-soft: #fff7ed;
+    --ops-accent-border: #fed7aa;
+    --ops-surface: #ffffff;
+    --ops-border: #e8edf2;
+    --ops-text: #0f172a;
+    --ops-muted: #64748b;
+    --ops-radius: 16px;
+    --ops-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
+    margin: 0 0 32px;
+}
+
+/* ── Page header ── */
+.ops-doc-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+}
+
+.ops-doc-header-left { flex: 1 1 240px; min-width: 0; }
+
+.ops-doc-title {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--ops-text);
+    line-height: 1.15;
+}
+
+.ops-doc-subtitle {
+    margin: 8px 0 0;
+    font-size: 0.9rem;
+    color: var(--ops-muted);
+    line-height: 1.5;
+    max-width: 540px;
+}
+
+.ops-doc-header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+.ops-doc-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 220px;
+    max-width: 340px;
+    flex: 1 1 220px;
+    height: 44px;
+    padding: 0 16px;
+    background: var(--ops-surface);
+    border: 1px solid var(--ops-border);
+    border-radius: 999px;
+    box-shadow: var(--ops-shadow);
+}
+
+.ops-doc-search:focus-within {
+    border-color: var(--ops-accent-border);
+    box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.1);
+}
+
+.ops-doc-search-icon { color: #94a3b8; font-size: 14px; }
+
+.ops-doc-search .erp-input,
+.ops-doc-search input {
+    flex: 1;
+    min-width: 0;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    height: auto !important;
+    font-size: 0.875rem;
+}
+
+.ops-doc-primary-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 999px;
+    background: var(--ops-accent);
+    color: #fff !important;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 2px 10px rgba(234, 88, 12, 0.25);
+    white-space: nowrap;
+}
+
+.ops-doc-primary-btn:hover {
+    background: #c2410c;
+    color: #fff !important;
+}
+
+/* ── Two-column shell (~70 / 30) ── */
+.ops-doc-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 24px;
+    align-items: start;
+}
+
+.ops-doc-main {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.ops-doc-main .qt-page-stack { gap: 28px; margin: 0; }
+
+/* Block headings */
+.ops-doc-block-head,
+.ops-doc-files-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+}
+
+.ops-doc-block-title {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--ops-text);
+    letter-spacing: -0.01em;
+}
+
+.ops-doc-view-all {
+    border: none;
+    background: none;
+    padding: 0;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ops-accent);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.ops-doc-view-all:hover { text-decoration: underline; }
+
+/* ── Folders grid ── */
+.ops-folder-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+@media (max-width: 900px) {
+    .ops-folder-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 520px) {
+    .ops-folder-grid { grid-template-columns: 1fr; }
+}
+
+.ops-folder-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 16px;
+    background: var(--ops-surface);
+    border: 1px solid var(--ops-border);
+    border-radius: var(--ops-radius);
+    box-shadow: var(--ops-shadow);
+    cursor: default;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.12s ease;
+}
+
+.ops-folder-card[role="button"],
+a.ops-folder-card { cursor: pointer; text-decoration: none; color: inherit; }
+
+.ops-folder-card[role="button"]:hover {
+    border-color: var(--ops-accent-border);
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.08);
+    transform: translateY(-1px);
+}
+
+.ops-folder-card.is-active {
+    border-color: var(--ops-accent);
+    box-shadow: 0 0 0 2px rgba(234, 88, 12, 0.15), var(--ops-shadow);
+}
+
+.ops-folder-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    background: var(--ops-accent-soft);
+    color: var(--ops-accent);
+}
+
+.ops-folder-card--blue .ops-folder-icon { background: #eff6ff; color: #2563eb; }
+.ops-folder-card--green .ops-folder-icon { background: #ecfdf5; color: #059669; }
+.ops-folder-card--amber .ops-folder-icon { background: #fffbeb; color: #d97706; }
+.ops-folder-card--red .ops-folder-icon { background: #fef2f2; color: #dc2626; }
+.ops-folder-card--cyan .ops-folder-icon { background: #ecfeff; color: #0891b2; }
+.ops-folder-card--purple .ops-folder-icon { background: #f5f3ff; color: #7c3aed; }
+.ops-folder-card--slate .ops-folder-icon { background: #f1f5f9; color: #475569; }
+
+.ops-folder-body {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ops-folder-name {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--ops-text);
+    line-height: 1.3;
+}
+
+.ops-folder-count {
+    font-size: 0.75rem;
+    color: var(--ops-muted);
+    font-weight: 500;
+}
+
+/* Hide old KPI cards on ops pages */
+.ops-doc-page .mod-hero-grid--overview { display: none !important; }
+
+/* ── Files section ── */
+.ops-doc-files {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.ops-doc-files-head-end {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ops-doc-files-meta {
+    font-size: 0.8125rem;
+    color: var(--ops-muted);
+    font-weight: 600;
+}
+
+/* ── Filter dashboard card ── */
+.ops-filter-card {
+    background: var(--ops-surface);
+    border: 1px solid var(--ops-border);
+    border-radius: var(--ops-radius);
+    box-shadow: var(--ops-shadow);
+    padding: 16px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.ops-doc-page .qt-find-panel.ops-filter-card,
+.ops-doc-page .ops-filter-card.qt-find-panel {
+    background: var(--ops-surface) !important;
+    border: 1px solid var(--ops-border) !important;
+    border-radius: var(--ops-radius) !important;
+    box-shadow: var(--ops-shadow) !important;
+    padding: 16px 18px !important;
+}
+
+.ops-doc-page .ops-doc-table-card.erp-card.qt-list-card {
+    border: 1px solid var(--ops-border) !important;
+    box-shadow: var(--ops-shadow) !important;
+}
+
+.ops-doc-page .qt-find-panel .qt-find-header,
+.ops-doc-page .qt-find-panel .qt-section-title {
+    display: none;
+}
+
+.ops-doc-page .qt-find-panel .qt-find-tools {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    flex: 0 0 auto;
+    min-width: 0;
+}
+
+/* Labeled pill filter rows */
+.ops-filter-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.ops-filter-label {
+    flex: 0 0 108px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+}
+
+.ops-filter-row .qt-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.ops-filter-row .qt-tab {
+    border-radius: 999px;
+    padding: 6px 13px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    border: 1px solid var(--ops-border);
+    background: var(--ops-surface);
+    color: var(--ops-muted);
+    cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+.ops-filter-row .qt-tab:hover {
+    background: var(--ops-accent-soft);
+    color: var(--ops-accent);
+    border-color: var(--ops-accent-border);
+}
+
+.ops-filter-row .qt-tab.active {
+    background: var(--ops-accent);
+    color: #fff;
+    border-color: var(--ops-accent);
+}
+
+.ops-doc-page .qt-tab-group-box {
+    display: contents;
+}
+
+.ops-doc-page .qt-tab-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ops-doc-page .qt-tab-group-label {
+    display: none;
+}
+
+/* Filter footer — sort + visibility */
+.ops-filter-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-top: 4px;
+    border-top: 1px solid var(--ops-border);
+    margin-top: 2px;
+}
+
+.ops-filter-sort {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.ops-filter-sort .erp-input {
+    height: 34px;
+    min-width: 150px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    border-radius: 999px;
+    border: 1px solid var(--ops-border);
+    padding: 0 32px 0 14px !important;
+    background: var(--ops-surface);
+}
+
+.ops-doc-page .ops-filter-sort.qt-control--sort .erp-input {
+    padding-left: 14px !important;
+    background-position: calc(100% - 16px) 50%, calc(100% - 11px) 50%;
+}
+
+.ops-filter-result {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ops-muted);
+}
+
+/* Bulk toolbar inside table card */
+.ops-doc-page .qt-table-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding: 10px 16px;
+    background: #fafbfc;
+    border-bottom: 1px solid var(--ops-border);
+}
+
+/* Table card */
+.ops-doc-table-card {
+    background: var(--ops-surface);
+    border: 1px solid var(--ops-border);
+    border-radius: var(--ops-radius);
+    box-shadow: var(--ops-shadow);
+    overflow: hidden;
+}
+
+.ops-doc-table-card > .erp-card-body { padding: 0 !important; }
+
+.ops-doc-page .erp-card.qt-list-card {
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.ops-doc-page .erp-card.qt-list-card > .erp-card-header { display: none; }
+
+/* Table header tint */
+.ops-doc-page .erp-student-table thead th,
+.ops-doc-page .jc-list-table thead th,
+.ops-doc-page .qt-list-table thead th,
+.ops-doc-page .inv-list-table thead th {
+    background: #fff7ed !important;
+    color: #475569 !important;
+    font-weight: 600 !important;
+    font-size: 0.8125rem !important;
+    border-bottom: 1px solid #fed7aa !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+}
+
+.ops-doc-page .erp-student-table tbody td {
+    font-size: 0.8125rem;
+    vertical-align: middle;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.ops-doc-page .erp-student-table tbody tr:hover td {
+    background: #fffbf7 !important;
+}
+
+.ops-doc-page .qt-dashboard-label { display: none; }
+
+/* ── Right sidebar ── */
+.ops-doc-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: sticky;
+    top: 68px;
+}
+
+.ops-doc-widget {
+    background: var(--ops-surface);
+    border: 1px solid var(--ops-border);
+    border-radius: var(--ops-radius);
+    box-shadow: var(--ops-shadow);
+    padding: 18px;
+}
+
+.ops-doc-widget-title {
+    margin: 0 0 16px;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--ops-text);
+}
+
+/* Donut overview */
+.ops-donut-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.ops-donut {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin: 0 auto;
+}
+
+.ops-donut-ring {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.ops-donut-hole {
+    position: absolute;
+    inset: 22%;
+    border-radius: 50%;
+    background: var(--ops-surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4px;
+}
+
+.ops-donut-hole strong {
+    font-size: 1.125rem;
+    font-weight: 800;
+    color: var(--ops-text);
+    line-height: 1.1;
+}
+
+.ops-donut-hole span {
+    font-size: 0.6875rem;
+    color: var(--ops-muted);
+    margin-top: 2px;
+}
+
+.ops-donut-legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ops-donut-legend li {
+    display: grid;
+    grid-template-columns: 10px 1fr auto;
+    gap: 8px;
+    align-items: center;
+    font-size: 0.8125rem;
+}
+
+.ops-donut-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.ops-donut-legend-label { color: var(--ops-muted); }
+.ops-donut-legend-val { font-weight: 700; color: var(--ops-text); }
+
+/* Quick stats */
+.ops-doc-stat-row { display: flex; flex-direction: column; gap: 14px; }
+
+.ops-doc-stat-item {
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 2px 10px;
+    align-items: center;
+}
+
+.ops-doc-stat-icon {
+    grid-row: 1 / 3;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--ops-accent-soft);
+    color: var(--ops-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+.ops-doc-stat-label {
+    font-size: 0.8125rem;
+    color: var(--ops-muted);
+    font-weight: 500;
+}
+
+.ops-doc-stat-value {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--ops-text);
+    text-align: right;
+}
+
+.ops-doc-stat-bar {
+    grid-column: 2 / -1;
+    height: 6px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    overflow: hidden;
+}
+
+.ops-doc-stat-bar-fill {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: var(--ops-accent);
+    min-width: 3px;
+}
+
+.ops-doc-stat-bar-fill--blue { background: #2563eb; }
+.ops-doc-stat-bar-fill--green { background: #059669; }
+.ops-doc-stat-bar-fill--amber { background: #d97706; }
+.ops-doc-stat-bar-fill--red { background: #dc2626; }
+
+/* Recent activity */
+.ops-doc-activity-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ops-doc-activity-item {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 10px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    transition: background 0.12s ease;
+}
+
+.ops-doc-activity-item:hover { background: #f8fafc; }
+
+.ops-doc-activity-item.is-highlight {
+    background: var(--ops-accent-soft);
+}
+
+.ops-doc-activity-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f1f5f9;
+    color: var(--ops-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.ops-doc-activity-body { min-width: 0; flex: 1; }
+
+.ops-doc-activity-title {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ops-text);
+}
+
+.ops-doc-activity-meta {
+    margin: 2px 0 0;
+    font-size: 0.75rem;
+    color: var(--ops-muted);
+    line-height: 1.35;
+}
+
+.ops-doc-activity-time {
+    display: block;
+    margin-top: 3px;
+    font-size: 0.6875rem;
+    color: #94a3b8;
+}
+
+.ops-doc-activity-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ops-accent);
+    flex-shrink: 0;
+    margin-top: 6px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .ops-doc-layout { grid-template-columns: 1fr; }
+    .ops-doc-aside {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+    }
+}
+
+@media (max-width: 640px) {
+    .ops-doc-header { flex-direction: column; }
+    .ops-doc-search { max-width: none; width: 100%; }
+    .ops-doc-files-toolbar-mid { width: 100%; }
+}
+
+/* Dark mode */
+html.site-theme-dark .ops-doc-page,
+html.rd-dash-theme-dark .ops-doc-page {
+    --ops-surface: #1e293b;
+    --ops-border: #334155;
+    --ops-text: #f1f5f9;
+    --ops-muted: #94a3b8;
+    --ops-accent-soft: rgba(234, 88, 12, 0.14);
+    --ops-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+html.site-theme-dark .ops-folder-card,
+html.rd-dash-theme-dark .ops-folder-card,
+html.site-theme-dark .ops-doc-widget,
+html.rd-dash-theme-dark .ops-doc-widget,
+html.site-theme-dark .ops-doc-table-card,
+html.rd-dash-theme-dark .ops-doc-table-card {
+    background: var(--ops-surface);
+    border-color: var(--ops-border);
+}
+
+html.site-theme-dark .ops-doc-page .erp-student-table thead th,
+html.rd-dash-theme-dark .ops-doc-page .erp-student-table thead th {
+    background: rgba(234, 88, 12, 0.12) !important;
+    border-bottom-color: #334155 !important;
+    color: #cbd5e1 !important;
+}
+
+html.site-theme-dark .ops-filter-card,
+html.rd-dash-theme-dark .ops-filter-card {
+    background: var(--ops-surface);
+    border-color: var(--ops-border);
+}
+
+html.site-theme-dark .ops-filter-row .qt-tab,
+html.rd-dash-theme-dark .ops-filter-row .qt-tab {
+    background: #1e293b;
+    border-color: #334155;
+    color: #94a3b8;
+}
+
+html.site-theme-dark .ops-donut-hole,
+html.rd-dash-theme-dark .ops-donut-hole {
+    background: #1e293b;
+}

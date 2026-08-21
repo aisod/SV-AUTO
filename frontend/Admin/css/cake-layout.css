@@ -1,0 +1,769 @@
+/**
+ * cake-layout.css
+ * Vantus ERP-style layout overrides for SV Auto ERP.
+ * Loaded after erp-layout.css to refine the shell visuals.
+ */
+
+/* ─── Design tokens ───────────────────────────────────────────────────── */
+:root {
+    --topbar-height: 52px;
+    --topbar-bg: #ffffff;
+    --topbar-border: #e2e8f0;
+    --topbar-z: 1100;
+    --vt-primary: #f97316;
+    --vt-primary-strong: #ea580c;
+    --vt-primary-bg: #ffedd5;
+    --vt-primary-hover: #fff7ed;
+    --vt-primary-shadow: rgba(249, 115, 22, 0.25);
+    --vt-sidebar-width: 240px;
+    --vt-sidebar-collapsed: 64px;
+    --vt-page-bg: #f9fafb;
+}
+
+/* ─── Full-width application topbar ──────────────────────────────────── */
+.erp-app-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--topbar-height);
+    z-index: var(--topbar-z);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--topbar-bg);
+    border-bottom: 1px solid var(--topbar-border);
+    box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
+    padding: 0 16px 0 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* ─── Mobile hamburger ────────────────────────────────────────────────── */
+.erp-topbar-hamburger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: var(--topbar-height);
+    flex-shrink: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #64748b;
+    font-size: 15px;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+.erp-topbar-hamburger:hover { color: #0f172a; }
+
+/* ─── Brand block ─────────────────────────────────────────────────────── */
+.erp-topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: var(--vt-sidebar-width);
+    box-sizing: border-box;
+    height: var(--topbar-height);
+    padding: 0 14px;
+    border-right: 1px solid var(--topbar-border);
+    flex-shrink: 0;
+    min-width: 0;
+}
+
+.erp-topbar-brand-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.erp-topbar-logo-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    overflow: hidden;
+    flex-shrink: 0;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+.erp-topbar-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.erp-topbar-logo-mark {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: #f97316;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: -0.01em;
+}
+
+.erp-topbar-workspace {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    flex: 1;
+}
+
+.erp-topbar-ws-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111827;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.erp-topbar-ws-badge { display: none !important; }
+
+/* ─── Breadcrumb strip ────────────────────────────────────────────────── */
+.erp-topbar-bc {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 16px;
+    font-size: 13px;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.erp-topbar-bc-sep {
+    color: #cbd5e1;
+    font-size: 12px;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.erp-topbar-bc-item {
+    color: #64748b;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+a.erp-topbar-bc-item:hover { color: #0f172a; }
+
+.erp-topbar-bc-item--current {
+    color: #0f172a;
+    font-weight: 600;
+}
+
+/* ─── Spacer ──────────────────────────────────────────────────────────── */
+.erp-topbar-spacer { flex: 1 1 0%; min-width: 0; }
+
+/* ─── Right-side tools strip ──────────────────────────────────────────── */
+.erp-topbar-tools {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* ─── Sidebar: positioned below topbar ───────────────────────────────── */
+.erp-sidebar {
+    top: var(--topbar-height) !important;
+    height: calc(100vh - var(--topbar-height)) !important;
+    max-height: calc(100vh - var(--topbar-height)) !important;
+    width: var(--vt-sidebar-width) !important;
+    min-width: var(--vt-sidebar-width) !important;
+    border-right: 1px solid #eef0f3 !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.erp-sidebar-nav {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    padding: 16px 12px 12px !important;
+    animation: none !important;
+}
+
+/* ─── Menu section (scrollable primary nav) ───────────────────────────── */
+.erp-nav-section--menu {
+    padding: 0 !important;
+    border: none !important;
+    margin: 0 !important;
+}
+
+.erp-nav-section-label {
+    padding: 0 10px 8px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #64748b !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+}
+
+/* Nav items — readable defaults */
+.erp-sidebar .erp-nav-link,
+.erp-sidebar .erp-nav-parent {
+    gap: 11px !important;
+    padding: 10px 12px !important;
+    margin-bottom: 2px !important;
+    border-radius: 10px !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    color: #334155 !important;
+    transition: background 0.12s ease, color 0.12s ease !important;
+}
+
+.erp-sidebar .erp-nav-link span,
+.erp-sidebar .erp-nav-parent > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    flex: 1;
+}
+
+.erp-sidebar .erp-nav-link i,
+.erp-sidebar .erp-nav-parent > i:first-child {
+    width: 20px !important;
+    font-size: 15px !important;
+    color: #475569 !important;
+    transition: color 0.12s ease !important;
+}
+
+/* Hover — clear orange accent + darker text */
+.erp-sidebar .erp-nav-link:hover,
+.erp-sidebar .erp-nav-parent:hover {
+    background: var(--vt-primary-hover) !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+    transform: none !important;
+}
+
+.erp-sidebar .erp-nav-link:hover i,
+.erp-sidebar .erp-nav-parent:hover > i:first-child {
+    color: var(--vt-primary-strong) !important;
+    transform: none !important;
+}
+
+.erp-sidebar .erp-nav-chevron {
+    font-size: 11px !important;
+    color: #94a3b8 !important;
+    margin-left: auto;
+    flex-shrink: 0;
+    transition: transform 0.2s ease, color 0.12s ease !important;
+}
+
+.erp-sidebar .erp-nav-group.is-open > .erp-nav-parent .erp-nav-chevron {
+    transform: rotate(90deg);
+    color: var(--vt-primary-strong) !important;
+}
+
+/* Active top-level link — clear orange */
+html body.erp-app .erp-sidebar .erp-nav-link.is-active,
+.erp-app .erp-sidebar .erp-nav-link.is-active {
+    background: var(--vt-primary-bg) !important;
+    color: var(--vt-primary-strong) !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-weight: 700 !important;
+}
+
+html body.erp-app .erp-sidebar .erp-nav-link.is-active i,
+.erp-app .erp-sidebar .erp-nav-link.is-active i {
+    color: var(--vt-primary-strong) !important;
+}
+
+/* Open / active parent group — orange tint, readable */
+html body.erp-app .erp-sidebar .erp-nav-parent.is-active,
+html body.erp-app .erp-sidebar .erp-nav-group.is-open > .erp-nav-parent,
+.erp-app .erp-sidebar .erp-nav-parent.is-active,
+.erp-app .erp-sidebar .erp-nav-group.is-open > .erp-nav-parent {
+    background: var(--vt-primary-hover) !important;
+    color: #9a3412 !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-weight: 700 !important;
+}
+
+html body.erp-app .erp-sidebar .erp-nav-parent.is-active > i:first-child,
+html body.erp-app .erp-sidebar .erp-nav-group.is-open > .erp-nav-parent > i:first-child,
+.erp-app .erp-sidebar .erp-nav-parent.is-active > i:first-child,
+.erp-app .erp-sidebar .erp-nav-group.is-open > .erp-nav-parent > i:first-child {
+    color: var(--vt-primary-strong) !important;
+}
+
+html body.erp-app .erp-sidebar .erp-nav-parent.is-active .erp-nav-chevron,
+html body.erp-app .erp-sidebar .erp-nav-group.is-open > .erp-nav-parent .erp-nav-chevron,
+.erp-app .erp-sidebar .erp-nav-parent.is-active .erp-nav-chevron,
+.erp-app .erp-sidebar .erp-nav-group.is-open > .erp-nav-parent .erp-nav-chevron {
+    color: var(--vt-primary-strong) !important;
+}
+
+html body.erp-app .erp-nav-link.is-active::before,
+html body.erp-app .erp-nav-parent.is-active::before,
+html body.erp-app .erp-nav-group.is-open > .erp-nav-parent::before {
+    display: none !important;
+}
+
+/* Child nav items */
+.erp-sidebar .erp-nav-children {
+    padding: 4px 0 6px 0 !important;
+    margin: 0 0 2px 0 !important;
+}
+
+.erp-sidebar .erp-nav-child {
+    padding: 8px 12px 8px 42px !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    border-radius: 8px !important;
+    color: #475569 !important;
+    transition: background 0.12s ease, color 0.12s ease !important;
+}
+
+.erp-sidebar .erp-nav-child:hover {
+    background: var(--vt-primary-hover) !important;
+    color: var(--vt-primary-strong) !important;
+    font-weight: 600 !important;
+}
+
+body.erp-app .erp-sidebar .erp-nav-child.is-current {
+    color: var(--vt-primary-strong) !important;
+    font-weight: 700 !important;
+    background: var(--vt-primary-bg) !important;
+}
+
+/* Footer links — same hover readability */
+.erp-sidebar .erp-sidebar-foot-link:hover {
+    background: var(--vt-primary-hover) !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+}
+
+.erp-sidebar .erp-sidebar-foot-link:hover > i {
+    color: var(--vt-primary-strong) !important;
+}
+
+html body.erp-app .erp-sidebar .erp-sidebar-foot-link.is-active {
+    background: var(--vt-primary-bg) !important;
+    color: var(--vt-primary-strong) !important;
+    font-weight: 700 !important;
+}
+
+html body.erp-app .erp-sidebar .erp-sidebar-foot-link.is-active > i {
+    color: var(--vt-primary-strong) !important;
+}
+
+/* ─── Sidebar footer: General + Collapse ──────────────────────────────── */
+.erp-sidebar-footer {
+    flex: 0 0 auto !important;
+    padding: 0 12px 12px !important;
+    border-top: 1px solid #eef0f3 !important;
+    background: #ffffff !important;
+    gap: 0 !important;
+}
+
+.erp-nav-section--general {
+    padding: 14px 0 10px !important;
+    border: none !important;
+    margin: 0 !important;
+}
+
+.erp-sidebar-foot-label {
+    padding: 0 10px 8px !important;
+}
+
+.erp-sidebar .erp-sidebar-foot-link {
+    margin-bottom: 2px !important;
+}
+
+.erp-sidebar-foot-link--logout > i { color: #ef4444 !important; }
+
+.erp-sidebar-foot-link--logout:hover {
+    background: #fef2f2 !important;
+    color: #dc2626 !important;
+}
+.erp-sidebar-foot-link--logout:hover > i { color: #dc2626 !important; }
+
+.erp-sidebar-collapsed .erp-sidebar-foot-label { display: none !important; }
+
+html.site-theme-dark .erp-sidebar-foot-link--logout:hover,
+html.rd-dash-theme-dark .erp-sidebar-foot-link--logout:hover {
+    background: rgba(239, 68, 68, 0.12) !important;
+    color: #f87171 !important;
+}
+
+.erp-sidebar-collapse-wrap {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-top: none !important;
+}
+
+.erp-sidebar-collapse-btn {
+    padding: 9px 12px !important;
+    border-radius: 10px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #64748b !important;
+    transition: background 0.15s ease, color 0.15s ease !important;
+}
+
+.erp-sidebar-collapse-btn:hover {
+    background: #f8fafc !important;
+    color: #475569 !important;
+    transform: none !important;
+}
+
+.erp-sidebar-collapse-btn i {
+    font-size: 13px !important;
+    color: #94a3b8 !important;
+}
+
+/* Topbar controls — clearer hover readability */
+.rd-dash-search:hover {
+    background: #fff7ed !important;
+    border-color: #fed7aa !important;
+    color: #0f172a !important;
+}
+
+.rd-dash-search:hover i {
+    color: #ea580c !important;
+}
+
+.rd-dash-notif-btn:hover,
+.rd-dash-theme-btn:hover {
+    background: #fff7ed !important;
+    color: #ea580c !important;
+}
+
+.erp-topbar-tools .erp-user-chip--pill:hover .erp-user-name,
+.erp-user-chip--pill:hover .erp-user-name {
+    color: #0f172a !important;
+}
+.erp-layout {
+    padding-top: var(--topbar-height);
+    min-height: 100vh;
+}
+
+.erp-main {
+    margin-left: var(--vt-sidebar-width) !important;
+}
+
+.erp-sidebar-collapsed .erp-main {
+    margin-left: var(--vt-sidebar-collapsed) !important;
+}
+
+/* ─── Collapsed sidebar — compact icon rail ───────────────────────────── */
+.erp-sidebar-collapsed .erp-sidebar {
+    width: var(--vt-sidebar-collapsed) !important;
+    min-width: var(--vt-sidebar-collapsed) !important;
+}
+
+.erp-sidebar-collapsed .erp-sidebar-nav {
+    flex: 0 0 auto !important;
+    padding: 8px 6px 4px !important;
+    overflow: visible !important;
+}
+
+.erp-sidebar-collapsed .erp-nav-section--menu {
+    padding: 0 !important;
+}
+
+.erp-sidebar-collapsed .erp-sidebar .erp-nav-link,
+.erp-sidebar-collapsed .erp-sidebar .erp-nav-parent,
+.erp-sidebar-collapsed .erp-sidebar .erp-sidebar-foot-link {
+    width: 44px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+    padding: 0 !important;
+    margin: 0 auto 3px !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    border-radius: 10px !important;
+}
+
+.erp-sidebar-collapsed .erp-sidebar .erp-nav-link i,
+.erp-sidebar-collapsed .erp-sidebar .erp-nav-parent > i:first-child,
+.erp-sidebar-collapsed .erp-sidebar .erp-sidebar-foot-link > i {
+    width: auto !important;
+    font-size: 16px !important;
+    margin: 0 !important;
+}
+
+.erp-sidebar-collapsed .erp-sidebar-footer {
+    flex: 0 0 auto !important;
+    margin-top: 0 !important;
+    padding: 6px 6px 8px !important;
+    border-top: 1px solid #eef0f3 !important;
+}
+
+.erp-sidebar-collapsed .erp-nav-section--general {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+}
+
+.erp-sidebar-collapsed .erp-sidebar-collapse-wrap {
+    margin-top: 6px !important;
+    padding-top: 6px !important;
+    border-top: 1px solid #eef0f3 !important;
+}
+
+.erp-sidebar-collapsed .erp-sidebar-collapse-btn {
+    width: 44px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+    justify-content: center !important;
+    border-radius: 10px !important;
+}
+
+.erp-sidebar-collapsed .erp-sidebar-collapse-btn i {
+    font-size: 14px !important;
+}
+
+/* Topbar aligns with collapsed rail */
+.erp-sidebar-collapsed .erp-topbar-brand {
+    width: var(--vt-sidebar-collapsed) !important;
+    padding: 0 6px !important;
+    justify-content: center !important;
+    gap: 0 !important;
+}
+
+.erp-sidebar-collapsed .erp-topbar-workspace {
+    display: none !important;
+}
+
+.erp-sidebar-collapsed .erp-topbar-logo-wrap {
+    width: 38px !important;
+    height: 38px !important;
+    padding: 2px !important;
+}
+
+.erp-sidebar-collapsed .erp-topbar-logo-mark {
+    width: 38px !important;
+    height: 38px !important;
+    font-size: 13px !important;
+}
+
+/* ─── Page background ─────────────────────────────────────────────────── */
+html:not(.site-theme-dark):not(.rd-dash-theme-dark) body .erp-content {
+    background: var(--vt-page-bg);
+}
+
+/* ─── Remove old in-main header ───────────────────────────────────────── */
+.erp-header {
+    display: none !important;
+}
+
+/* ─── Content padding ─────────────────────────────────────────────────── */
+.erp-content {
+    padding: 20px 24px 28px !important;
+}
+
+/* ─── Page header inside content ─────────────────────────────────────── */
+.erp-page-header {
+    margin-bottom: 20px !important;
+}
+
+.erp-page-title {
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+    letter-spacing: -0.02em !important;
+}
+
+.erp-page-subtitle {
+    font-size: 13px !important;
+    color: #64748b !important;
+    margin-top: 2px !important;
+}
+
+/* ─── Sidebar brand (hide legacy) ────────────────────────────────────── */
+.erp-sidebar-brand {
+    display: none !important;
+}
+
+/* ─── Mobile overrides ────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+    .erp-topbar-hamburger { display: flex; }
+    .erp-topbar-brand { padding: 0 12px; }
+    .erp-topbar-bc { display: none; }
+    .erp-topbar-ws-name { max-width: 130px; }
+    .erp-sidebar {
+        top: var(--topbar-height) !important;
+        height: calc(100vh - var(--topbar-height)) !important;
+    }
+    .erp-layout { padding-top: var(--topbar-height); }
+}
+
+@media (max-width: 640px) {
+    .erp-topbar-workspace { display: none; }
+    .erp-topbar-tools { gap: 4px; }
+    .rd-dash-search { display: none; }
+    .erp-portal-pills { display: none; }
+    .erp-user-chip--pill .erp-user-info { display: none; }
+}
+
+/* ─── Dark mode topbar ────────────────────────────────────────────────── */
+html.site-theme-dark .erp-app-topbar,
+html.rd-dash-theme-dark .erp-app-topbar {
+    background: var(--rd-dm-bg-soft, #0c0c10);
+    border-bottom-color: var(--rd-dm-border, rgba(255,255,255,0.08));
+}
+
+html.site-theme-dark .erp-topbar-ws-name,
+html.rd-dash-theme-dark .erp-topbar-ws-name {
+    color: var(--rd-dm-text, #f4f4f5);
+}
+
+html.site-theme-dark .erp-topbar-bc-item--current,
+html.rd-dash-theme-dark .erp-topbar-bc-item--current {
+    color: var(--rd-dm-text, #f4f4f5);
+}
+
+html.site-theme-dark .erp-topbar-brand,
+html.rd-dash-theme-dark .erp-topbar-brand {
+    border-right-color: var(--rd-dm-border, rgba(255,255,255,0.08));
+}
+
+/* Dark mode sidebar nav */
+html.site-theme-dark .erp-sidebar,
+html.rd-dash-theme-dark .erp-sidebar {
+    background: var(--rd-dm-bg-soft, #0c0c10) !important;
+    border-right-color: var(--rd-dm-border, rgba(255,255,255,0.08)) !important;
+}
+
+html.site-theme-dark .erp-sidebar-footer,
+html.rd-dash-theme-dark .erp-sidebar-footer {
+    background: var(--rd-dm-bg-soft, #0c0c10) !important;
+    border-top-color: var(--rd-dm-border, rgba(255,255,255,0.08)) !important;
+}
+
+html.site-theme-dark .erp-sidebar .erp-nav-link,
+html.site-theme-dark .erp-sidebar .erp-nav-parent,
+html.rd-dash-theme-dark .erp-sidebar .erp-nav-link,
+html.rd-dash-theme-dark .erp-sidebar .erp-nav-parent {
+    color: var(--rd-dm-text-muted, #c4ccd4) !important;
+}
+
+html.site-theme-dark body.erp-app .erp-sidebar .erp-nav-link.is-active,
+html.rd-dash-theme-dark body.erp-app .erp-sidebar .erp-nav-link.is-active {
+    background: rgba(249, 115, 22, 0.18) !important;
+    color: #fdba74 !important;
+    box-shadow: none !important;
+}
+
+html.site-theme-dark body.erp-app .erp-sidebar .erp-nav-link.is-active i,
+html.rd-dash-theme-dark body.erp-app .erp-sidebar .erp-nav-link.is-active i {
+    color: #f97316 !important;
+}
+
+html.site-theme-dark .erp-sidebar .erp-nav-link:hover,
+html.site-theme-dark .erp-sidebar .erp-nav-parent:hover,
+html.rd-dash-theme-dark .erp-sidebar .erp-nav-link:hover,
+html.rd-dash-theme-dark .erp-sidebar .erp-nav-parent:hover {
+    background: rgba(249, 115, 22, 0.12) !important;
+    color: #f4f4f5 !important;
+}
+
+html.site-theme-dark .erp-sidebar .erp-nav-link:hover i,
+html.site-theme-dark .erp-sidebar .erp-nav-parent:hover > i:first-child,
+html.rd-dash-theme-dark .erp-sidebar .erp-nav-link:hover i,
+html.rd-dash-theme-dark .erp-sidebar .erp-nav-parent:hover > i:first-child {
+    color: #f97316 !important;
+}
+
+html.site-theme-dark body.erp-app .erp-sidebar .erp-nav-parent.is-active,
+html.site-theme-dark body.erp-app .erp-sidebar .erp-nav-group.is-open > .erp-nav-parent,
+html.rd-dash-theme-dark body.erp-app .erp-sidebar .erp-nav-parent.is-active,
+html.rd-dash-theme-dark body.erp-app .erp-sidebar .erp-nav-group.is-open > .erp-nav-parent {
+    background: rgba(249, 115, 22, 0.12) !important;
+    color: #fdba74 !important;
+    box-shadow: none !important;
+}
+
+html.site-theme-dark .erp-sidebar .erp-nav-child:hover,
+html.rd-dash-theme-dark .erp-sidebar .erp-nav-child:hover {
+    background: rgba(249, 115, 22, 0.12) !important;
+    color: #f97316 !important;
+}
+
+body.erp-app html.site-theme-dark .erp-sidebar .erp-nav-child.is-current,
+body.erp-app html.rd-dash-theme-dark .erp-sidebar .erp-nav-child.is-current {
+    background: rgba(249, 115, 22, 0.18) !important;
+    color: #fdba74 !important;
+}
+
+/* Dark mode content bg */
+html.site-theme-dark body .erp-content,
+html.rd-dash-theme-dark body .erp-content {
+    background: var(--rd-dm-bg, #09090b) !important;
+}
+
+/* Dark mode — topbar (Admin + Manager) */
+html.site-theme-dark .erp-app-topbar,
+html.rd-dash-theme-dark .erp-app-topbar {
+    background: var(--rd-dm-bg-soft, #0c0c10) !important;
+    border-bottom-color: var(--rd-dm-border, rgba(255,255,255,0.08)) !important;
+}
+
+html.site-theme-dark .erp-topbar-tools .erp-user-chip--pill,
+html.rd-dash-theme-dark .erp-topbar-tools .erp-user-chip--pill {
+    background: var(--rd-dm-surface, #131318) !important;
+    border-color: var(--rd-dm-border-strong, rgba(255,255,255,0.12)) !important;
+}
+
+html.site-theme-dark .erp-topbar-tools .erp-user-chip--pill .erp-user-name,
+html.rd-dash-theme-dark .erp-topbar-tools .erp-user-chip--pill .erp-user-name {
+    color: var(--rd-dm-text, #f4f4f5) !important;
+}
+
+html.site-theme-dark .erp-topbar-tools .erp-user-chip--pill .erp-user-role,
+html.rd-dash-theme-dark .erp-topbar-tools .erp-user-chip--pill .erp-user-role {
+    color: var(--rd-dm-text-muted, #c4ccd4) !important;
+}
+
+html.site-theme-dark .rd-dash-welcome,
+html.rd-dash-theme-dark .rd-dash-welcome {
+    color: var(--rd-dm-text, #f4f4f5) !important;
+}
+
+html.site-theme-dark .rd-dash-welcome-sub,
+html.rd-dash-theme-dark .rd-dash-welcome-sub {
+    color: var(--rd-dm-text-muted, #c4ccd4) !important;
+}
+
+html.site-theme-dark .erp-topbar-tools .rd-dash-search:hover,
+html.rd-dash-theme-dark .erp-topbar-tools .rd-dash-search:hover,
+html.site-theme-dark .erp-topbar-tools .rd-dash-notif-btn:hover,
+html.rd-dash-theme-dark .erp-topbar-tools .rd-dash-notif-btn:hover,
+html.site-theme-dark .erp-topbar-tools .rd-dash-theme-btn:hover,
+html.rd-dash-theme-dark .erp-topbar-tools .rd-dash-theme-btn:hover {
+    background: rgba(249, 115, 22, 0.14) !important;
+    color: #fdba74 !important;
+}
+
+html.site-theme-dark .erp-sidebar-collapsed .erp-sidebar-collapse-wrap,
+html.rd-dash-theme-dark .erp-sidebar-collapsed .erp-sidebar-collapse-wrap,
+html.site-theme-dark .erp-sidebar-collapsed .erp-sidebar-footer,
+html.rd-dash-theme-dark .erp-sidebar-collapsed .erp-sidebar-footer {
+    border-top-color: var(--rd-dm-border, rgba(255,255,255,0.08)) !important;
+}

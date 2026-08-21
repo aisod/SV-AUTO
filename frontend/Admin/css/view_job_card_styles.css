@@ -1,0 +1,180 @@
+:root {
+    --p: #F5A623;
+    --s: #4a4a4a;
+    --a: #FFF8EC;
+    --g: #2e7d32;
+    --dark: #2c1808;
+}
+.luxury-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(245,166,35,0.15);
+    border: 2px solid var(--p);
+    margin-bottom: 15px;
+    max-width: 900px;
+}
+.jc-header {
+    background: linear-gradient(135deg, var(--p), var(--s));
+    color: white;
+    padding: 12px 16px;
+    text-align: center;
+    position: relative;
+}
+.jc-logo {
+    position: absolute;
+    top: 8px;
+    left: 12px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+    object-fit: contain;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.jc-header h1 {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin: 2px 0;
+}
+.jc-header .slogan {
+    font-size: 12px;
+    opacity: 0.85;
+    font-weight: 300;
+    margin-bottom: 4px;
+}
+.card-no {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    background: rgba(255,255,255,0.2);
+    padding: 4px 14px;
+    border-radius: 6px;
+    display: inline-block;
+    margin: 3px 0 0;
+}
+.jc-content { padding: 12px 16px; }
+.section {
+    margin-bottom: 10px;
+    background: #fffaf5;
+    padding: 10px 12px;
+    border-left: 3px solid var(--p);
+    border-radius: 0 6px 6px 0;
+    box-shadow: 0 1px 4px rgba(245,166,35,0.05);
+}
+.section h2 {
+    font-size: 13px;
+    color: var(--s);
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--p);
+    display: inline-block;
+    font-weight: 700;
+}
+.jc-table {
+    width: 100%;
+    font-size: 14px;
+    border-collapse: collapse;
+}
+.jc-table td {
+    padding: 4px 0;
+    vertical-align: top;
+}
+.label {
+    font-weight: 600;
+    color: var(--dark);
+    width: 130px;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.3px;
+}
+.value { font-weight: 500; color: #333; font-size: 14px; }
+.highlight { color: var(--p); font-weight: 700; }
+.desc-box {
+    background: #fff8f0;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 45px;
+    border: 1px dashed #ffe4c4;
+    word-wrap: break-word;
+}
+.sign-box {
+    border: 2px dashed var(--a);
+    border-radius: 6px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fef8f0;
+    position: relative;
+}
+.sign-label-bottom {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--s);
+    white-space: nowrap;
+}
+.jc-footer {
+    text-align: center;
+    padding: 10px;
+    background: var(--dark);
+    color: white;
+    font-size: 11px;
+    margin-top: 10px;
+    line-height: 1.5;
+}
+.btn-print {
+    background: var(--p);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(245,166,35,0.4);
+    transition: all 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    float: right;
+    margin: 10px 0 20px 0;
+    align-items: center;
+    gap: 8px;
+}
+.btn-print:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 36px rgba(245,166,35,0.6);
+}
+.success-message {
+    background: #d4edda;
+    color: #155724;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border: 2px solid #28a745;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+    max-width: 900px;
+}
+@media print {
+    .btn-print, .success-message { display: none; }
+    .sidebar, .header, .overlay { display: none !important; }
+    .main-content { margin-left: 0 !important; padding-top: 0 !important; }
+    .content-wrapper { padding: 0 !important; }
+    .luxury-card { box-shadow: none; border: none; border-radius: 0; max-width: 100%; }
+    @page { size: A4 portrait; margin: 8mm; }
+}
+@media (max-width: 991px) {
+    .luxury-card { max-width: 100%; }
+    .btn-print { bottom: 16px; right: 16px; padding: 10px 20px; font-size: 13px; }
+}

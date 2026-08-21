@@ -1,0 +1,347 @@
+/* ERP (Admin + Manager) — align with public site theme (index.php) */
+
+body.erp-app {
+    --beige: #f5f3ee;
+    --beige-deep: #e8e4dc;
+    --cream: #faf8f4;
+    --orange: #ea580c;
+    --line: rgba(0, 0, 0, 0.08);
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-color: var(--beige);
+    background-image: linear-gradient(
+        180deg,
+        var(--beige-deep) 0%,
+        var(--beige) 28%,
+        var(--beige) 100%
+    );
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+body.erp-app::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image:
+        radial-gradient(circle at 20% 10%, rgba(234, 88, 12, 0.04) 0%, transparent 42%),
+        radial-gradient(circle at 85% 75%, rgba(15, 23, 42, 0.03) 0%, transparent 40%);
+}
+
+body.erp-app .erp-layout {
+    position: relative;
+    z-index: 1;
+}
+
+body.erp-app .erp-content {
+    background: transparent;
+    color: inherit;
+}
+
+html.site-theme-dark body.erp-app .erp-content,
+html.rd-dash-theme-dark body.erp-app .erp-content {
+    background: var(--rd-dm-bg, #09090b) !important;
+    color: var(--rd-dm-text-muted, #c4ccd4);
+}
+
+/* Match index brand orange in ERP chrome */
+body.erp-app {
+    --brand-primary: #ea580c;
+    --brand-primary-dark: #c2410c;
+    --brand-primary-light: #f97316;
+    --brand-primary-subtle: rgba(234, 88, 12, 0.1);
+}
+
+.erp-admin-header-tools .site-theme-toggle {
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    body.erp-app {
+        background-attachment: scroll;
+        background-size: 100% max(100%, 100dvh);
+    }
+}
+
+/* Dark ERP shell — same tokens as site-theme-dark + existing rd-dash rules */
+html.site-theme-dark body.erp-app,
+html.rd-dash-theme-dark body.erp-app {
+    background-color: var(--beige, #151a20);
+    background-image: linear-gradient(
+        180deg,
+        var(--beige-deep, #0f1318) 0%,
+        var(--beige, #151a20) 28%,
+        var(--beige, #151a20) 100%
+    );
+}
+
+html.site-theme-dark body.erp-app::before,
+html.rd-dash-theme-dark body.erp-app::before {
+    background-image:
+        radial-gradient(circle at 20% 10%, rgba(234, 88, 12, 0.08) 0%, transparent 42%),
+        radial-gradient(circle at 85% 75%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
+}
+
+html.site-theme-dark .rd-dash-notif-btn,
+html.site-theme-dark .erp-admin-header-tools .site-theme-toggle,
+html.rd-dash-theme-dark .rd-dash-notif-btn,
+html.rd-dash-theme-dark .rd-dash-theme-toggle {
+    background: var(--rd-dm-surface, var(--white, #1a2028));
+    border-color: var(--rd-dm-border-strong, var(--line));
+    box-shadow: var(--rd-dm-inset, none);
+}
+
+html.site-theme-dark .site-theme-btn,
+html.rd-dash-theme-dark .site-theme-btn {
+    color: var(--rd-dm-text-faint, var(--text-muted));
+}
+
+html.site-theme-dark .site-theme-btn.is-active,
+html.rd-dash-theme-dark .site-theme-btn.is-active {
+    background: var(--rd-dm-text, var(--white));
+    color: var(--rd-dm-bg, var(--black));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* ── Dashboard dark mode readability (Admin + Manager) ── */
+html.site-theme-dark body:has(.rd-dashboard) .erp-content,
+html.rd-dash-theme-dark body:has(.rd-dashboard) .erp-content {
+    background: var(--rd-dm-bg) !important;
+    color: var(--rd-dm-text-muted);
+}
+
+html.site-theme-dark .erp-content .erp-page-title,
+html.site-theme-dark .erp-content .erp-page-header .erp-page-title,
+html.rd-dash-theme-dark .erp-content .erp-page-title,
+html.rd-dash-theme-dark .erp-content .erp-page-header .erp-page-title {
+    color: var(--rd-dm-text);
+}
+
+html.site-theme-dark .rd-dashboard,
+html.rd-dash-theme-dark .rd-dashboard {
+    --rd-card-border: 1px solid var(--rd-dm-border);
+}
+
+html.site-theme-dark .rd-panel,
+html.rd-dash-theme-dark .rd-panel {
+    background: var(--rd-dm-surface);
+    border-color: var(--rd-dm-border);
+    box-shadow: var(--rd-dm-inset), var(--rd-dm-shadow);
+}
+
+html.site-theme-dark .rd-panel-title,
+html.rd-dash-theme-dark .rd-panel-title {
+    color: var(--rd-dm-text);
+}
+
+html.site-theme-dark .rd-panel-sub,
+html.rd-dash-theme-dark .rd-panel-sub {
+    color: var(--rd-dm-text-muted);
+}
+
+html.site-theme-dark .rd-task-item,
+html.rd-dash-theme-dark .rd-task-item {
+    background: var(--rd-dm-surface-2);
+    border-color: var(--rd-dm-border);
+}
+
+html.site-theme-dark .rd-task-item:hover,
+html.rd-dash-theme-dark .rd-task-item:hover {
+    background: var(--rd-dm-surface-hover);
+}
+
+html.site-theme-dark .rd-task-title,
+html.rd-dash-theme-dark .rd-task-title {
+    color: var(--rd-dm-text);
+}
+
+html.site-theme-dark .rd-task-meta,
+html.rd-dash-theme-dark .rd-task-meta {
+    color: var(--rd-dm-text-muted);
+}
+
+html.site-theme-dark .rd-panel--followup .rd-panel-head,
+html.rd-dash-theme-dark .rd-panel--followup .rd-panel-head {
+    border-bottom-color: var(--rd-dm-border);
+}
+
+html.site-theme-dark .rd-panel-head--clients,
+html.rd-dash-theme-dark .rd-panel-head--clients {
+    border-bottom-color: var(--rd-dm-border);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+}
+
+html.site-theme-dark .rd-dash-welcome,
+html.rd-dash-theme-dark .rd-dash-welcome {
+    color: var(--rd-dm-text);
+}
+
+html.site-theme-dark .rd-dash-welcome-sub,
+html.rd-dash-theme-dark .rd-dash-welcome-sub {
+    color: var(--rd-dm-text-muted);
+}
+
+html.site-theme-dark .rd-dash-clients-wrap .erp-table-container.qt-table-scroll,
+html.rd-dash-theme-dark .rd-dash-clients-wrap .erp-table-container.qt-table-scroll {
+    background: var(--rd-dm-surface);
+}
+
+html.site-theme-dark #dashClientsTable.erp-student-table.rd-dash-clients-table thead th,
+html.site-theme-dark #mgrPreviewQueueTable.erp-student-table.rd-dash-clients-table thead th,
+html.rd-dash-theme-dark #dashClientsTable.erp-student-table.rd-dash-clients-table thead th,
+html.rd-dash-theme-dark #mgrPreviewQueueTable.erp-student-table.rd-dash-clients-table thead th {
+    background: var(--rd-dm-surface-2) !important;
+    color: var(--rd-dm-text-muted) !important;
+    border-bottom-color: var(--rd-dm-border) !important;
+}
+
+html.site-theme-dark #dashClientsTable.erp-student-table.rd-dash-clients-table thead th.sortable:hover,
+html.site-theme-dark #mgrPreviewQueueTable.erp-student-table.rd-dash-clients-table thead th.sortable:hover,
+html.rd-dash-theme-dark #dashClientsTable.erp-student-table.rd-dash-clients-table thead th.sortable:hover,
+html.rd-dash-theme-dark #mgrPreviewQueueTable.erp-student-table.rd-dash-clients-table thead th.sortable:hover {
+    background: rgba(255, 255, 255, 0.04) !important;
+    color: var(--rd-dm-text) !important;
+}
+
+html.site-theme-dark #dashClientsTable.erp-student-table.rd-dash-clients-table tbody td,
+html.site-theme-dark #mgrPreviewQueueTable.erp-student-table.rd-dash-clients-table tbody td,
+html.rd-dash-theme-dark #dashClientsTable.erp-student-table.rd-dash-clients-table tbody td,
+html.rd-dash-theme-dark #mgrPreviewQueueTable.erp-student-table.rd-dash-clients-table tbody td {
+    background: var(--rd-dm-surface) !important;
+    color: var(--rd-dm-text-muted) !important;
+    border-bottom-color: var(--rd-dm-border) !important;
+}
+
+html.site-theme-dark #dashClientsTable tbody tr[data-dash-client-row="1"]:hover td,
+html.site-theme-dark #mgrPreviewQueueTable tbody tr[data-mgr-preview-row="1"]:hover td,
+html.rd-dash-theme-dark #dashClientsTable tbody tr[data-dash-client-row="1"]:hover td,
+html.rd-dash-theme-dark #mgrPreviewQueueTable tbody tr[data-mgr-preview-row="1"]:hover td {
+    background: var(--rd-dm-surface-hover) !important;
+}
+
+html.site-theme-dark #dashClientsTable .rd-col-client .st-cell-primary,
+html.site-theme-dark #mgrPreviewQueueTable .rd-col-ref .st-cell-ref,
+html.rd-dash-theme-dark #dashClientsTable .rd-col-client .st-cell-primary,
+html.rd-dash-theme-dark #mgrPreviewQueueTable .rd-col-ref .st-cell-ref {
+    color: var(--rd-dm-text);
+}
+
+html.site-theme-dark #mgrPreviewQueueTable .rd-col-sent .st-cell-muted,
+html.rd-dash-theme-dark #mgrPreviewQueueTable .rd-col-sent .st-cell-muted {
+    color: var(--rd-dm-text-muted);
+}
+
+html.site-theme-dark .rd-clients-foot,
+html.rd-dash-theme-dark .rd-clients-foot {
+    background: var(--rd-dm-surface-2);
+    border-top-color: var(--rd-dm-border);
+}
+
+html.site-theme-dark .rd-clients-foot a,
+html.rd-dash-theme-dark .rd-clients-foot a {
+    color: #c4b5fd;
+}
+
+html.site-theme-dark .rd-clients-see-all,
+html.rd-dash-theme-dark .rd-clients-see-all {
+    color: #c4b5fd;
+}
+
+html.site-theme-dark .rd-clients-see-all:hover,
+html.rd-dash-theme-dark .rd-clients-see-all:hover {
+    color: #ddd6fe;
+}
+
+html.site-theme-dark .erp-nav-link,
+html.site-theme-dark .erp-nav-parent,
+html.rd-dash-theme-dark .erp-nav-link,
+html.rd-dash-theme-dark .erp-nav-parent {
+    color: var(--rd-dm-text-muted);
+}
+
+html.site-theme-dark .erp-nav-section-label,
+html.rd-dash-theme-dark .erp-nav-section-label {
+    color: var(--rd-dm-text-muted);
+}
+
+html.site-theme-dark .erp-brand-sub,
+html.rd-dash-theme-dark .erp-brand-sub {
+    color: var(--rd-dm-text-muted);
+}
+
+/* ERP list & form pages — readable text on dark canvas */
+html.site-theme-dark .erp-page-title,
+html.site-theme-dark .erp-content .erp-page-header .erp-page-title,
+html.rd-dash-theme-dark .erp-page-title,
+html.rd-dash-theme-dark .erp-content .erp-page-header .erp-page-title {
+    color: var(--rd-dm-text, #f4f4f5);
+}
+
+html.site-theme-dark .erp-page-subtitle,
+html.site-theme-dark .erp-content .erp-page-header .erp-page-subtitle,
+html.rd-dash-theme-dark .erp-page-subtitle,
+html.rd-dash-theme-dark .erp-content .erp-page-header .erp-page-subtitle {
+    color: var(--rd-dm-text-muted, #c4ccd4);
+}
+
+html.site-theme-dark .erp-breadcrumb a,
+html.site-theme-dark .erp-breadcrumb-current,
+html.rd-dash-theme-dark .erp-breadcrumb a,
+html.rd-dash-theme-dark .erp-breadcrumb-current {
+    color: var(--rd-dm-text-muted, #c4ccd4);
+}
+
+html.site-theme-dark .erp-breadcrumb a:hover,
+html.rd-dash-theme-dark .erp-breadcrumb a:hover {
+    color: var(--rd-dm-text, #f4f4f5);
+}
+
+html.site-theme-dark .erp-card,
+html.rd-dash-theme-dark .erp-card {
+    background: var(--rd-dm-surface, #131318);
+    border-color: var(--rd-dm-border, rgba(255, 255, 255, 0.08));
+    color: var(--rd-dm-text-muted, #c4ccd4);
+}
+
+html.site-theme-dark .erp-card-title,
+html.rd-dash-theme-dark .erp-card-title {
+    color: var(--rd-dm-text, #f4f4f5);
+}
+
+html.site-theme-dark .erp-label,
+html.rd-dash-theme-dark .erp-label {
+    color: var(--rd-dm-text, #f4f4f5);
+}
+
+html.site-theme-dark .erp-input,
+html.site-theme-dark .erp-select,
+html.site-theme-dark .erp-textarea,
+html.rd-dash-theme-dark .erp-input,
+html.rd-dash-theme-dark .erp-select,
+html.rd-dash-theme-dark .erp-textarea {
+    background: var(--rd-dm-surface-2, #1a1a22);
+    border-color: var(--rd-dm-border-strong, rgba(255, 255, 255, 0.12));
+    color: var(--rd-dm-text, #f4f4f5);
+}
+
+html.site-theme-dark .erp-student-table thead th,
+html.rd-dash-theme-dark .erp-student-table thead th {
+    background: var(--rd-dm-surface-2, #1a1a22) !important;
+    color: var(--rd-dm-text-muted, #c4ccd4) !important;
+    border-bottom-color: var(--rd-dm-border, rgba(255, 255, 255, 0.08)) !important;
+}
+
+html.site-theme-dark .erp-student-table tbody td,
+html.rd-dash-theme-dark .erp-student-table tbody td {
+    background: var(--rd-dm-surface, #131318) !important;
+    color: var(--rd-dm-text-muted, #c4ccd4) !important;
+    border-bottom-color: var(--rd-dm-border, rgba(255, 255, 255, 0.08)) !important;
+}
+
+html.site-theme-dark .erp-student-table tbody tr:hover td,
+html.rd-dash-theme-dark .erp-student-table tbody tr:hover td {
+    background: var(--rd-dm-surface-hover, #22222c) !important;
+}

@@ -1,0 +1,23 @@
+# Composer
+/vendor/
+
+# IDE / tooling
+.cursor/
+.kiro/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Secrets (copy from mail.example.php → mail.php locally)
+SV-Auto-main/Config/mail.php
+Config/mail.php
+backend/config/mail.php
+backend/config/google.local.php
+.env
+
+# Local scratch / backups
+_tmp_*
+index.php.bak
