@@ -1,0 +1,182 @@
+/**
+ * SV Auto — shared responsive utilities
+ * Admin, Manager, Client portals, and public pages
+ */
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+img,
+video,
+iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Notched phones (iPhone X+, etc.) */
+@supports (padding: env(safe-area-inset-top)) {
+    .erp-app-topbar {
+        padding-left: max(12px, env(safe-area-inset-left));
+        padding-right: max(12px, env(safe-area-inset-right));
+    }
+
+    .erp-header {
+        padding-left: max(16px, env(safe-area-inset-left));
+        padding-right: max(16px, env(safe-area-inset-right));
+    }
+
+    .erp-footer {
+        padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    }
+
+    .sticky-contact {
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+}
+
+/* Touch-friendly tap targets on phones/tablets */
+@media (pointer: coarse) {
+    .erp-btn,
+    .erp-header-btn,
+    .erp-topbar-hamburger,
+    .mobile-menu-toggle,
+    .erp-nav-link,
+    .erp-nav-parent,
+    .erp-menu-item,
+    .st-page-btn,
+    .qt-tab,
+    .hb {
+        min-height: 44px;
+    }
+
+    .erp-topbar-hamburger,
+    .mobile-menu-toggle,
+    .erp-header-btn {
+        min-width: 44px;
+    }
+}
+
+/* Prevent iOS zoom when focusing form fields */
+@media (max-width: 768px) {
+    input:not([type="checkbox"]):not([type="radio"]),
+    select,
+    textarea {
+        font-size: 16px;
+    }
+}
+
+/* Horizontal scroll for wide tables */
+.erp-table-container,
+.st-table-wrap,
+.table-responsive,
+.qt-list-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .erp-table-container .erp-table,
+    .erp-table-container .erp-student-table,
+    .st-table-wrap .erp-student-table {
+        min-width: min(100%, 540px);
+    }
+}
+
+/* Page layout — tablet and below */
+@media (max-width: 768px) {
+    .erp-page-actions {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .erp-page-actions .erp-btn,
+    .erp-page-actions .aq-s1-btn,
+    .erp-page-actions a.erp-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .erp-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .erp-card-body {
+        padding: 1rem;
+    }
+
+    .erp-modal:not(.erp-logout-modal) {
+        width: calc(100vw - 32px) !important;
+        max-width: none !important;
+        margin: 16px;
+    }
+
+    .erp-flex.erp-justify-between {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+}
+
+/* Page layout — phones */
+@media (max-width: 480px) {
+    .erp-page-title {
+        font-size: 1.25rem !important;
+        word-break: break-word;
+    }
+
+    .erp-content {
+        padding: 12px 14px 18px !important;
+    }
+
+    body.erp-app .erp-content {
+        padding: 12px 14px 18px !important;
+    }
+
+    .erp-footer {
+        padding: 0.75rem 1rem;
+        font-size: 11px;
+    }
+
+    .erp-footer p {
+        margin: 0;
+    }
+
+    .erp-notif-dropdown,
+    .erp-user-dropdown,
+    #notificationDropdown,
+    #userDropdown {
+        position: fixed !important;
+        left: 16px !important;
+        right: 16px !important;
+        width: auto !important;
+        max-width: none !important;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+    .erp-topbar-ws-name {
+        max-width: 80px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .erp-sidebar,
+    .sidebar-overlay,
+    .erp-modal-overlay {
+        transition: none !important;
+    }
+}

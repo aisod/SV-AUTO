@@ -13,7 +13,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'google_register') {
     $clientSecret = GOOGLE_CLIENT_SECRET;
     $redirectUri = defined('GOOGLE_REGISTER_REDIRECT_URI')
         ? GOOGLE_REGISTER_REDIRECT_URI
-        : app_url('Admin/register.php');
+        : ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http')
+            . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost')
+            . app_url('Admin/Auth/register.php'));
 
     if ($clientId === '' || $clientSecret === '') {
         die('Google OAuth is not configured. Copy backend/config/google.local.example.php to google.local.php.');
@@ -54,7 +56,9 @@ if (isset($_GET['code']) && isset($_GET['state'])) {
     $clientSecret = GOOGLE_CLIENT_SECRET;
     $redirectUri = defined('GOOGLE_REGISTER_REDIRECT_URI')
         ? GOOGLE_REGISTER_REDIRECT_URI
-        : app_url('Admin/register.php');
+        : ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http')
+            . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost')
+            . app_url('Admin/Auth/register.php'));
     
     $code = $_GET['code'];
     
@@ -110,7 +114,7 @@ if (isset($_GET['code']) && isset($_GET['state'])) {
     if ($existingClient) {
         // Account already exists - redirect to login
         $_SESSION['google_message'] = "An account with this Google email already exists. Please sign in instead.";
-        header('Location: ../../login.php');
+        header('Location: ' . app_url('Admin/Auth/login.php'));
         exit;
     }
     
@@ -137,7 +141,7 @@ if (isset($_GET['code']) && isset($_GET['state'])) {
         $_SESSION['google_new_user'] = true;  // CRITICAL for complete-profile.php
         
         // Redirect to complete-profile.php
-        header('Location: ../Client/complete-profile.php');
+        header('Location: ' . app_url('Client/complete-profile.php'));
         exit;
         
     } catch (Exception $e) {
@@ -148,7 +152,7 @@ if (isset($_GET['code']) && isset($_GET['state'])) {
 // Redirect if already logged in
 if (isset($_SESSION['user_id']) && $_SESSION['role_name'] === 'client') {
     ob_end_clean(); // Clear any output buffer
-    header('Location: ../Client/dashboard.php');
+    header('Location: ' . app_url('Client/dashboard.php'));
     exit;
 }
 

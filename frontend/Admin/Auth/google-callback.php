@@ -91,17 +91,16 @@ if ($existingClient) {
         $_SESSION['status']     = 'pending';
         $_SESSION['first_name'] = $existingClient['first_name'];
         $_SESSION['email']      = $email;
-        header('Location: ../Client/pending-approval.php');
+        header('Location: ' . app_url('Client/pending-approval.php'));
         exit;
     }
     
     // Check if account is blocked
     if ($existingClient['status'] === 'blocked') {
-        $_SESSION['google_message'] = "Your account has been suspended. Please contact SV Auto Services for assistance.";
         session_destroy();
         session_start();
         $_SESSION['google_message'] = "Your account has been suspended. Please contact SV Auto Services for assistance.";
-        header('Location: ../Admin/login.php');
+        header('Location: ' . app_url('Admin/Auth/login.php'));
         exit;
     }
     
@@ -112,7 +111,7 @@ if ($existingClient) {
         $_SESSION['status']     = $existingClient['status'];
         $_SESSION['first_name'] = $existingClient['first_name'];
         $_SESSION['email']      = $email;
-        header('Location: ../Admin/register.php');
+        header('Location: ' . app_url('Client/complete-profile.php'));
         exit;
     }
     
@@ -124,7 +123,7 @@ if ($existingClient) {
     $_SESSION['first_name'] = $existingClient['first_name'];
     $_SESSION['last_name']  = $existingClient['last_name'];
     $_SESSION['email']      = $email;
-    header('Location: ../Client/dashboard.php');
+    header('Location: ' . app_url('Client/dashboard.php'));
     exit;
 } else {
     // Brand new Google user — create their account now
@@ -150,13 +149,13 @@ if ($existingClient) {
         $_SESSION['google_new_user'] = true;  // CRITICAL for complete-profile.php
         
         // Send to complete their profile
-        header('Location: ../Client/complete-profile.php');
+        header('Location: ' . app_url('Client/complete-profile.php'));
         exit;
         
     } catch (Exception $e) {
         error_log("Google registration error: " . $e->getMessage());
         $_SESSION['google_message'] = "Registration failed. Please try again.";
-        header('Location: ../Admin/register.php');
+        header('Location: ' . app_url('Admin/Auth/register.php'));
         exit;
     }
 }

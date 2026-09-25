@@ -40,6 +40,16 @@ $authLogos = publicAuthLogoUrls();
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/site-theme.css?v=7">
+    <?php
+    $public_responsive_css = __DIR__ . '/assets/css/responsive.css';
+    $public_responsive_css_v = is_file($public_responsive_css) ? (string) filemtime($public_responsive_css) : '1';
+    ?>
+    <link rel="stylesheet" href="assets/css/responsive.css?v=<?php echo htmlspecialchars($public_responsive_css_v, ENT_QUOTES, 'UTF-8'); ?>">
+    <?php
+    $public_responsive_css = __DIR__ . '/assets/css/responsive.css';
+    $public_responsive_css_v = is_file($public_responsive_css) ? (string) filemtime($public_responsive_css) : '1';
+    ?>
+    <link rel="stylesheet" href="assets/css/responsive.css?v=<?php echo htmlspecialchars($public_responsive_css_v, ENT_QUOTES, 'UTF-8'); ?>">
     <style>
         html { color-scheme: light; }
         html.site-theme-dark { color-scheme: dark; }
@@ -1758,6 +1768,13 @@ $authLogos = publicAuthLogoUrls();
                 width: 100%;
                 justify-content: center;
             }
+            .fg2 { grid-template-columns: 1fr; gap: 1.5rem; }
+            .contact-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 360px) {
+            :root { --pad-x: 1rem; }
+            .hero-title { font-size: 1.45rem !important; }
+            .sticky-contact-inner { gap: 0.35rem; font-size: 0.75rem; }
         }
     </style>
 </head>

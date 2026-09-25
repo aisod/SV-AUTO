@@ -97,6 +97,16 @@ $business = getBusiness();
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="../Admin/css/erp-layout.css">
+    <?php
+    $client_responsive_css = __DIR__ . '/../css/client-portal-responsive.css';
+    $client_responsive_css_v = is_file($client_responsive_css) ? (string) filemtime($client_responsive_css) : '1';
+    $client_responsive_href = '../Client/css/client-portal-responsive.css?v=' . htmlspecialchars($client_responsive_css_v, ENT_QUOTES, 'UTF-8');
+    $shared_responsive_css = __DIR__ . '/../../assets/css/responsive.css';
+    $shared_responsive_css_v = is_file($shared_responsive_css) ? (string) filemtime($shared_responsive_css) : '1';
+    $shared_responsive_href = '../assets/css/responsive.css?v=' . htmlspecialchars($shared_responsive_css_v, ENT_QUOTES, 'UTF-8');
+    ?>
+    <link rel="stylesheet" href="<?php echo $client_responsive_href; ?>">
+    <link rel="stylesheet" href="<?php echo $shared_responsive_href; ?>">
     <style>
         :root {
             --brand-primary: #F7A100;
@@ -104,168 +114,12 @@ $business = getBusiness();
             --brand-primary-light: #FFB52E;
             --brand-primary-subtle: #FFF5E0;
         }
-        
-        /* ── RESPONSIVE STYLES ─────────────────────────────────────────────── */
-        
-        /* Mobile Menu Toggle - hidden on desktop */
-        .mobile-menu-toggle { display: none !important; }
-        
-        /* Tablet: max-width 1024px */
-        @media (max-width: 1024px) {
-            .erp-sidebar {
-                width: 240px;
-            }
-            .erp-main {
-                margin-left: 240px;
-            }
-            .erp-content {
-                padding: 20px;
-            }
-        }
-        
-        /* Mobile: max-width 768px */
-        @media (max-width: 768px) {
-            /* Show mobile menu toggle */
-            .mobile-menu-toggle { display: flex !important; }
-            
-            /* Sidebar - hidden by default, overlay when open */
-            .erp-sidebar {
-                position: fixed;
-                left: -280px;
-                top: 0;
-                height: 100vh;
-                width: 280px;
-                z-index: 1000;
-                transition: left 0.3s ease;
-                box-shadow: 2px 0 20px rgba(0,0,0,0.3);
-            }
-            .erp-sidebar.active {
-                left: 0;
-            }
-            
-            /* Overlay for sidebar */
-            .sidebar-overlay {
-                display: none;
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: rgba(0,0,0,0.5);
-                z-index: 999;
-            }
-            .sidebar-overlay.active {
-                display: block;
-            }
-            
-            /* Main content - full width */
-            .erp-main {
-                margin-left: 0;
-                width: 100%;
-            }
-            
-            /* Header adjustments */
-            .erp-header {
-                padding: 12px 16px;
-            }
-            
-            /* Content area */
-            .erp-content {
-                padding: 16px;
-            }
-            
-            /* Cards stack vertically */
-            .erp-card {
-                margin-bottom: 16px;
-            }
-            
-            /* Grid layouts become single column */
-            .erp-grid {
-                grid-template-columns: 1fr !important;
-            }
-            
-            /* Stats grid */
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr) !important;
-            }
-            
-            /* Tables scroll horizontally */
-            .erp-table-container {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-            .erp-table {
-                min-width: 600px;
-            }
-            
-            /* Buttons full width on mobile */
-            .erp-btn {
-                width: 100%;
-                justify-content: center;
-                margin-bottom: 8px;
-            }
-            
-            /* Form inputs full width */
-            .erp-form-group input,
-            .erp-form-group select,
-            .erp-form-group textarea {
-                width: 100%;
-            }
-            
-            /* Page header adjustments */
-            .erp-page-header {
-                padding: 16px;
-            }
-            .erp-page-title {
-                font-size: 20px;
-            }
-            
-            /* Breadcrumb adjustments */
-            .erp-breadcrumb {
-                font-size: 12px;
-                flex-wrap: wrap;
-            }
-            
-            /* Notification dropdown - full width on mobile */
-            #notificationDropdown {
-                width: calc(100vw - 32px) !important;
-                right: 16px !important;
-                left: 16px !important;
-                max-width: none;
-            }
-            
-            /* User dropdown adjustments */
-            #userDropdown {
-                right: 16px !important;
-                left: 16px !important;
-                width: calc(100vw - 32px) !important;
-            }
-        }
-        
-        /* Small mobile: max-width 480px */
-        @media (max-width: 480px) {
-            .stats-grid {
-                grid-template-columns: 1fr !important;
-            }
-            
-            .erp-page-title {
-                font-size: 18px;
-            }
-            
-            .erp-header-right {
-                gap: 8px;
-            }
-            
-            .erp-user-info {
-                display: none;
-            }
-        }
     </style>
 <style>
     .erp-page-header .erp-breadcrumb { display: none !important; }
 </style>
 </head>
-<body>
+<body class="client-portal">
     <div class="erp-layout">
         <!-- Sidebar -->
         <aside class="erp-sidebar" id="sidebar">
@@ -316,7 +170,7 @@ $business = getBusiness();
             <header class="erp-header">
                 <div class="erp-header-left">
                     <!-- Mobile Menu Toggle -->
-                    <button class="mobile-menu-toggle erp-header-btn" onclick="toggleSidebar()" title="Menu" style="display: none; margin-right: 12px;">
+                    <button class="mobile-menu-toggle erp-header-btn" onclick="toggleSidebar()" title="Menu" aria-label="Open menu" style="margin-right: 12px;">
                         <i class="fas fa-bars"></i>
                     </button>
 <?php

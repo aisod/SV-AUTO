@@ -622,6 +622,17 @@ html:not(.site-theme-dark):not(.rd-dash-theme-dark) body .erp-content {
     .erp-user-chip--pill .erp-user-info { display: none; }
 }
 
+@media (max-width: 480px) {
+    .erp-topbar-brand { padding: 0 8px; }
+    .erp-topbar-brand img { max-height: 32px; }
+    .erp-topbar-bc { display: none; }
+    .erp-user-chip--pill .erp-user-avatar { margin: 0; }
+}
+
+@media (max-width: 380px) {
+    .erp-topbar-ws-name { max-width: 72px; }
+}
+
 /* ─── Dark mode topbar ────────────────────────────────────────────────── */
 html.site-theme-dark .erp-app-topbar,
 html.rd-dash-theme-dark .erp-app-topbar {

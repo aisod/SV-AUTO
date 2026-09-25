@@ -183,6 +183,11 @@ $isSuccessMessage = isset($_GET['reset']) && $_GET['reset'] === 'success';
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="assets/css/site-theme.css?v=6">
     <link rel="stylesheet" href="assets/css/auth-pages.css?v=5">
+    <?php
+    $login_responsive_css = __DIR__ . '/assets/css/responsive.css';
+    $login_responsive_css_v = is_file($login_responsive_css) ? (string) filemtime($login_responsive_css) : '1';
+    ?>
+    <link rel="stylesheet" href="assets/css/responsive.css?v=<?php echo htmlspecialchars($login_responsive_css_v, ENT_QUOTES, 'UTF-8'); ?>">
 </head>
 <body>
     <div class="login-theme-bar">

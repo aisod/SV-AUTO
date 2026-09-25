@@ -2632,6 +2632,59 @@ html.rd-dash-theme-dark .erp-logout-btn--confirm:hover {
     .erp-search-input {
         max-width: 100%;
     }
+
+    .erp-card-body {
+        padding: var(--space-4);
+    }
+
+    .erp-card-footer {
+        padding: var(--space-3) var(--space-4);
+    }
+}
+
+@media (max-width: 480px) {
+    .erp-content {
+        padding: var(--space-3);
+    }
+
+    body.erp-app .erp-content {
+        padding: 12px 14px 18px;
+    }
+
+    .erp-page-title {
+        font-size: var(--text-xl);
+    }
+
+    .erp-page-actions {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .erp-page-actions .erp-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .erp-stats-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-3);
+    }
+
+    .erp-footer {
+        padding: var(--space-3) var(--space-4);
+    }
+
+    .erp-modal {
+        width: calc(100vw - 32px);
+        max-width: none;
+        margin: 16px;
+    }
+
+    #sidebarOverlay.erp-modal-overlay.show {
+        align-items: stretch;
+        justify-content: stretch;
+    }
 }
 
 /* ========================================

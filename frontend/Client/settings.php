@@ -177,12 +177,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     background: #E5E7EB;
     margin: 24px 0;
 }
-
-@media (max-width: 768px) {
-    .settings-card {
-        padding: 16px;
-    }
-}
 </style>
 
 <!-- Page Header -->

@@ -201,6 +201,16 @@ $mgr_header_tools_js_v = is_file(__DIR__ . '/../../Admin/js/admin-header-tools.j
     ?>
     <link rel="stylesheet" href="../assets/css/site-theme.css?v=<?php echo htmlspecialchars($mgr_site_theme_css_v, ENT_QUOTES, 'UTF-8'); ?>">
     <link rel="stylesheet" href="../assets/css/erp-site-theme.css?v=<?php echo htmlspecialchars($mgr_site_theme_ext_css_v, ENT_QUOTES, 'UTF-8'); ?>">
+    <?php
+    $mgr_responsive_css = __DIR__ . '/../../assets/css/responsive.css';
+    $mgr_responsive_css_v = is_file($mgr_responsive_css) ? (string) filemtime($mgr_responsive_css) : '1';
+    ?>
+    <link rel="stylesheet" href="../assets/css/responsive.css?v=<?php echo htmlspecialchars($mgr_responsive_css_v, ENT_QUOTES, 'UTF-8'); ?>">
+    <?php
+    $mgr_responsive_css = __DIR__ . '/../../assets/css/responsive.css';
+    $mgr_responsive_css_v = is_file($mgr_responsive_css) ? (string) filemtime($mgr_responsive_css) : '1';
+    ?>
+    <link rel="stylesheet" href="../assets/css/responsive.css?v=<?php echo htmlspecialchars($mgr_responsive_css_v, ENT_QUOTES, 'UTF-8'); ?>">
     <style>
         html { color-scheme: light; }
         html.site-theme-dark { color-scheme: dark; }

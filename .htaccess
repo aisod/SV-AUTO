@@ -1,14 +1,16 @@
-# Site is served from this folder directly (no redirect to SV-Auto-main).
+# Site is served from this folder (Hostinger public_html or XAMPP project root).
 
 DirectoryIndex index.php
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Legacy paths (pre frontend/ + backend/ split)
-    RewriteRule ^Admin/(.*)$ "/SV Auto Truck Repair/frontend/Admin/$1" [R=302,L,QSA,NC]
-    RewriteRule ^Manager/(.*)$ "/SV Auto Truck Repair/frontend/Manager/$1" [R=302,L,QSA,NC]
-    RewriteRule ^Config/(.*)$ "/SV Auto Truck Repair/backend/config/$1" [R=302,L,QSA,NC]
-    RewriteRule ^Public/(.*)$ "/SV Auto Truck Repair/frontend/assets/$1" [R=302,L,QSA,NC]
-    RewriteRule ^contact_send\.php$ "/SV Auto Truck Repair/frontend/contact_send.php" [R=302,L,QSA,NC]
+    # Legacy / short paths → frontend/
+    RewriteRule ^Admin/(.*)$ frontend/Admin/$1 [L,QSA,NC]
+    RewriteRule ^Manager/(.*)$ frontend/Manager/$1 [L,QSA,NC]
+    RewriteRule ^Client/(.*)$ frontend/Client/$1 [L,QSA,NC]
+    RewriteRule ^assets/(.*)$ frontend/assets/$1 [L,QSA,NC]
+    RewriteRule ^Config/(.*)$ backend/config/$1 [L,QSA,NC]
+    RewriteRule ^Public/(.*)$ frontend/assets/$1 [L,QSA,NC]
+    RewriteRule ^contact_send\.php$ frontend/contact_send.php [L,QSA,NC]
 </IfModule>

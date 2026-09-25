@@ -1103,6 +1103,29 @@ table.erp-student-table.jc-list-table tbody td,
     background: transparent;
 }
 
+@media (max-width: 768px) {
+    .st-table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 calc(-1 * var(--space-4, 1rem));
+        padding: 0 var(--space-4, 1rem);
+    }
+
+    .erp-student-table {
+        min-width: min(100%, 640px);
+    }
+
+    .st-table-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .st-table-toolbar__actions {
+        flex-wrap: wrap;
+    }
+}
+
 @media (max-width: 640px) {
     .st-table-footer {
         flex-direction: column;
@@ -1111,5 +1134,12 @@ table.erp-student-table.jc-list-table tbody td,
 
     .st-table-footer__controls {
         justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .st-page-btn {
+        min-width: 36px;
+        min-height: 36px;
     }
 }

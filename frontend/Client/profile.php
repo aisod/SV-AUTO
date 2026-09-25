@@ -126,54 +126,6 @@ $clientWhatsapp = $client['whatsapp'] ?? '';
 $clientAddress = $client['address'] ?? '';
 ?>
 
-<style>
-/* ── RESPONSIVE PROFILE ── */
-@media (max-width: 1024px) {
-    .erp-page-header { padding: 20px; }
-}
-
-@media (max-width: 768px) {
-    .erp-page-title { font-size: 20px; }
-    
-    /* Profile grid becomes single column */
-    .profile-grid {
-        grid-template-columns: 1fr !important;
-        gap: 20px !important;
-    }
-    
-    /* Form inputs full width */
-    .erp-form-group input,
-    .erp-form-group select,
-    .erp-form-group textarea {
-        width: 100%;
-    }
-    
-    /* Stack action buttons */
-    .erp-flex {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .erp-btn {
-        width: 100%;
-        text-align: center;
-    }
-}
-
-@media (max-width: 480px) {
-    .erp-page-title { font-size: 18px; }
-    .erp-breadcrumb { font-size: 12px; }
-    
-    .erp-card-body {
-        padding: 20px !important;
-    }
-    
-    .erp-form-group {
-        margin-bottom: 15px;
-    }
-}
-</style>
-
 <!-- Page Header -->
 <div class="erp-page-header">
     <div class="erp-breadcrumb">

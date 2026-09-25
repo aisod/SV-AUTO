@@ -490,6 +490,11 @@ if ($current === 'add_job_card' && isset($_GET['edit_id']) && (int) $_GET['edit_
     ?>
     <link rel="stylesheet" href="../assets/css/site-theme.css?v=<?php echo htmlspecialchars($erp_site_theme_css_v, ENT_QUOTES, 'UTF-8'); ?>">
     <link rel="stylesheet" href="../assets/css/erp-site-theme.css?v=<?php echo htmlspecialchars($erp_site_theme_ext_css_v, ENT_QUOTES, 'UTF-8'); ?>">
+    <?php
+    $erp_responsive_css = __DIR__ . '/../../assets/css/responsive.css';
+    $erp_responsive_css_v = is_file($erp_responsive_css) ? (string) filemtime($erp_responsive_css) : '1';
+    ?>
+    <link rel="stylesheet" href="../assets/css/responsive.css?v=<?php echo htmlspecialchars($erp_responsive_css_v, ENT_QUOTES, 'UTF-8'); ?>">
     <style>
         html { color-scheme: light; }
         html.site-theme-dark { color-scheme: dark; }

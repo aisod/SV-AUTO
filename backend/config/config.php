@@ -4,9 +4,14 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Web path for this app (folder name under htdocs, port 8080 in XAMPP)
+// Web path: XAMPP folder locally; empty when site is at domain root (Hostinger public_html)
+if (!defined('APP_PRODUCTION_HOST')) {
+    define('APP_PRODUCTION_HOST', 'svautotruckrepair.com');
+}
 if (!defined('APP_BASE')) {
-    define('APP_BASE', '/SV Auto Truck Repair');
+    $httpHost = preg_replace('/:\d+$/', '', (string) ($_SERVER['HTTP_HOST'] ?? ''));
+    $isLocal = (bool) preg_match('/^(localhost|127\.0\.0\.1)$/i', $httpHost);
+    define('APP_BASE', $isLocal ? '/SV Auto Truck Repair' : '');
 }
 if (!function_exists('app_url')) {
     function app_url($path = '') {
@@ -14,8 +19,14 @@ if (!function_exists('app_url')) {
         return APP_BASE . ($path !== '' ? '/' . $path : '');
     }
 }
+if (!function_exists('app_is_production')) {
+    function app_is_production(): bool {
+        $host = preg_replace('/:\d+$/', '', (string) ($_SERVER['HTTP_HOST'] ?? ''));
+        return (bool) preg_match('/^(www\.)?' . preg_quote(APP_PRODUCTION_HOST, '/') . '$/i', $host);
+    }
+}
 
-// Google OAuth (copy google.local.example.php → google.local.php locally)
+// Google OAuth (copy google.local.example.php → google.local.php)
 $googleLocal = __DIR__ . '/google.local.php';
 if (is_file($googleLocal)) {
     require_once $googleLocal;
@@ -26,18 +37,41 @@ if (!defined('GOOGLE_CLIENT_ID')) {
 if (!defined('GOOGLE_CLIENT_SECRET')) {
     define('GOOGLE_CLIENT_SECRET', getenv('GOOGLE_CLIENT_SECRET') ?: '');
 }
+
+// Redirect URIs follow the current host (localhost XAMPP vs live domain).
+$googleHost = preg_replace('/:\d+$/', '', (string) ($_SERVER['HTTP_HOST'] ?? 'localhost'));
+if (app_is_production()) {
+    $googleScheme = 'https';
+    $googleHost = APP_PRODUCTION_HOST;
+} else {
+    $googleScheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+}
+$googleOrigin = $googleScheme . '://' . $googleHost;
+
 if (!defined('GOOGLE_REDIRECT_URI')) {
-    define('GOOGLE_REDIRECT_URI', getenv('GOOGLE_REDIRECT_URI') ?: (app_url('Admin/google-callback.php')));
+    define('GOOGLE_REDIRECT_URI', getenv('GOOGLE_REDIRECT_URI') ?: ($googleOrigin . app_url('Admin/Auth/google-callback.php')));
+}
+if (!defined('GOOGLE_REGISTER_REDIRECT_URI')) {
+    define('GOOGLE_REGISTER_REDIRECT_URI', getenv('GOOGLE_REGISTER_REDIRECT_URI') ?: ($googleOrigin . app_url('Admin/Auth/register.php')));
 }
 
-// Database connection
-$host = 'localhost';
+// Database (copy db.local.example.php → db.local.php on Hostinger)
+$dbHost = 'localhost';
+$dbPort = null; // null = default MySQL port 3306 (Hostinger)
 $dbname = 'sams_db';
 $username = 'root';
 $password = '';
 
+$dbLocal = __DIR__ . '/db.local.php';
+if (is_file($dbLocal)) {
+    require $dbLocal;
+}
+
 try {
-    $pdo = new PDO("mysql:host=127.0.0.1;port=3307;dbname=$dbname", $username, $password);
+    $dsn = $dbPort
+        ? "mysql:host={$dbHost};port={$dbPort};dbname={$dbname};charset=utf8mb4"
+        : "mysql:host={$dbHost};dbname={$dbname};charset=utf8mb4";
+    $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Runtime migrations for production safety (idempotent).
@@ -55,6 +89,18 @@ try {
         $rateUpdates->execute([1120.00, 'holiday']);
     } catch (Exception $e) {
         error_log('Migration warning (labor_rates defaults): ' . $e->getMessage());
+    }
+
+    try {
+        $pdo->exec("ALTER TABLE clients ADD COLUMN IF NOT EXISTS google_id VARCHAR(255) NULL AFTER email");
+    } catch (Exception $e) {
+        error_log('Migration warning (clients.google_id): ' . $e->getMessage());
+    }
+
+    try {
+        $pdo->exec("ALTER TABLE clients ADD INDEX IF NOT EXISTS idx_google_id (google_id)");
+    } catch (Exception $e) {
+        error_log('Migration warning (clients.idx_google_id): ' . $e->getMessage());
     }
 
     // Allow reuse of Job Card numbers for records in recycle bin.

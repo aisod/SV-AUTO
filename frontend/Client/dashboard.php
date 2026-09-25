@@ -84,55 +84,6 @@ if ($clientId) {
 }
 ?>
 
-<style>
-/* ── RESPONSIVE DASHBOARD ── */
-@media (max-width: 1024px) {
-    .erp-page-header { padding: 20px; }
-}
-
-@media (max-width: 768px) {
-    .erp-page-title { font-size: 20px; }
-    
-    /* Stats cards - 2 columns on tablet, 1 on small mobile */
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px !important;
-    }
-    
-    /* Recent activity table */
-    .erp-table-container {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-    
-    /* Quick links cards */
-    .erp-card-body {
-        padding: 20px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .erp-page-title { font-size: 18px; }
-    .erp-breadcrumb { font-size: 12px; }
-    
-    /* Single column for stats */
-    .stats-grid {
-        grid-template-columns: 1fr !important;
-    }
-    
-    /* Stack action buttons */
-    .erp-flex {
-        flex-direction: column;
-        gap: 8px;
-    }
-    
-    .erp-btn {
-        width: 100%;
-        text-align: center;
-    }
-}
-</style>
-
 <!-- Page Header -->
 <div class="erp-page-header">
     <div class="erp-breadcrumb">
