@@ -29,7 +29,10 @@ $params = [
     'prompt' => 'select_account'
 ];
 
-$authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params);
+// RFC3986 encodes spaces as %20. The default (RFC1738) uses +, which Google
+// compares literally against the registered redirect URI and which resolves to
+// a different path when the browser follows it.
+$authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' . http_build_query($params, '', '&', PHP_QUERY_RFC3986);
 
 // Redirect to Google
 header('Location: ' . $authUrl);

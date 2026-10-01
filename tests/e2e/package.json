@@ -1,0 +1,15 @@
+{
+  "name": "sams-e2e",
+  "private": true,
+  "description": "Playwright/Chromium end-to-end suite for SAMS, mapped to the SAMS Test Cases checklist IDs.",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report",
+    "evidence": "playwright test --config=playwright.evidence.config.ts",
+    "demo:video": "playwright test --config=playwright.demo.config.ts"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.0"
+  }
+}
