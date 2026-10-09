@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $message = "Please enter both email and password.";
         } else {
             $stmt = $pdo->prepare("
-                SELECT u.id, u.username, u.email, u.password, u.role_id, r.name AS role_name
+                SELECT u.*, r.name AS role_name
                 FROM users u
                 JOIN roles r ON u.role_id = r.id
                 WHERE u.username = ? OR u.email = ?
@@ -58,7 +58,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([$username, $username]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($user && password_verify($password, $user['password'])) {
+            // Only these roles have a working area; Technician / Finance / HR logins are not offered (their code is kept).
+            $roleAllowed = $user && in_array(strtolower((string) $user['role_name']), ['admin', 'manager', 'client'], true);
+            $roleBlocked = $user && !$roleAllowed && password_verify($password, $user['password']);
+            if ($user && $roleAllowed && password_verify($password, $user['password']) && (int) ($user['is_active'] ?? 1) === 1) {
                 session_regenerate_id(true);
                 $_SESSION['login_throttle'] = ['count' => 0, 'locked_until' => 0];
                 $_SESSION['user_id']     = $user['id'];
@@ -116,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $throttle['locked_until'] = time() + $lockoutSeconds;
                     $throttle['count'] = 0;
                 }
-                $message = "Invalid email or password.";
+                $message = $roleBlocked ? "This account type is not enabled. Please contact the administrator." : "Invalid email or password.";
             }
         }
     }

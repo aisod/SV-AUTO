@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header('Location: roles.php?error=Invalid role ID');
+    header('Location: user_roles.php?error=Invalid role ID');
     exit;
 }
 
@@ -26,7 +26,7 @@ $stmt->execute([$role_id]);
 $role = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$role) {
-    header('Location: roles.php?error=Role not found');
+    header('Location: user_roles.php?error=Role not found');
     exit;
 }
 

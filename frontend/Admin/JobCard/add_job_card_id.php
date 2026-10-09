@@ -913,7 +913,7 @@ try {
         </div>
     <?php endif; ?>
 
-    <form id="jobCardForm" action="/SV Auto Truck Repair/Admin/JobCard/create_job_card.php" method="POST">
+    <form id="jobCardForm" action="<?= htmlspecialchars(app_url('Admin/JobCard/create_job_card.php')) ?>" method="POST">
 
         <!-- SECTION 1: matches physical job card (header + two columns) -->
         <div class="jc-form-modern">

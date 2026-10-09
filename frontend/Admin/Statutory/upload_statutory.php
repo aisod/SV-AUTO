@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: statutory_docs.php?error=Invalid request');
+    header('Location: statutory.php?error=Invalid request');
     exit;
 }
 
@@ -18,12 +18,12 @@ $type = $_POST['type'] ?? '';
 $allowed = ['founding','good_standing','recommendation','afs','tender'];
 
 if (empty($name) || empty($type) || !in_array($type, $allowed)) {
-    header('Location: statutory_docs.php?error=Please fill all fields correctly');
+    header('Location: statutory.php?error=Please fill all fields correctly');
     exit;
 }
 
 if (!isset($_FILES['file']) || $_FILES['file']['error'] === UPLOAD_ERR_NO_FILE) {
-    header('Location: statutory_docs.php?error=No file selected');
+    header('Location: statutory.php?error=No file selected');
     exit;
 }
 
@@ -36,11 +36,11 @@ $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 $allowedExts = ['pdf','doc','docx','jpg','jpeg','png'];
 
 if (!in_array($ext, $allowedExts)) {
-    header('Location: statutory_docs.php?error=Invalid file type');
+    header('Location: statutory.php?error=Invalid file type');
     exit;
 }
 if ($file['size'] > 15 * 1024 * 1024) {
-    header('Location: statutory_docs.php?error=File too large (max 15MB)');
+    header('Location: statutory.php?error=File too large (max 15MB)');
     exit;
 }
 
@@ -50,7 +50,7 @@ $fullPath = $uploadDir . $newName;
 $relativeUrl = 'uploads/statutory/' . $newName;
 
 if (!move_uploaded_file($file['tmp_name'], $fullPath)) {
-    header('Location: statutory_docs.php?error=Failed to save file');
+    header('Location: statutory.php?error=Failed to save file');
     exit;
 }
 

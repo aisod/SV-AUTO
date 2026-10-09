@@ -5,12 +5,32 @@ DirectoryIndex index.php
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Legacy / short paths → frontend/
+    # Canonical URLs: /frontend/... -> /... (THE_REQUEST check prevents loops with the internal rewrites below)
+    # One canonical host + https, so the session cookie is the same before and after the Google redirect.
+    RewriteCond %{HTTP_HOST} ^www\.svautotruckrepair\.com$ [NC]
+    RewriteRule ^(.*)$ https://svautotruckrepair.com/$1 [R=301,L,NE]
+    RewriteCond %{HTTP_HOST} ^svautotruckrepair\.com$ [NC]
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+    RewriteRule ^(.*)$ https://svautotruckrepair.com/$1 [R=301,L,NE]
+
+    # Production host only, so local XAMPP subfolder URLs keep working.
+    RewriteCond %{HTTP_HOST} ^(www\.)?svautotruckrepair\.com$ [NC]
+    RewriteCond %{THE_REQUEST} \s/+frontend(?:/|\s|\?)
+    RewriteRule ^frontend/?(.*)$ /$1 [R=301,L,NE]
+
+    # Home page at the domain root, served from frontend/
+    RewriteRule ^$ frontend/index.php [L]
+
+    # Legacy / short paths -> frontend/
     RewriteRule ^Admin/(.*)$ frontend/Admin/$1 [L,QSA,NC]
     RewriteRule ^Manager/(.*)$ frontend/Manager/$1 [L,QSA,NC]
     RewriteRule ^Client/(.*)$ frontend/Client/$1 [L,QSA,NC]
     RewriteRule ^assets/(.*)$ frontend/assets/$1 [L,QSA,NC]
     RewriteRule ^Config/(.*)$ backend/config/$1 [L,QSA,NC]
     RewriteRule ^Public/(.*)$ frontend/assets/$1 [L,QSA,NC]
+    RewriteCond %{DOCUMENT_ROOT}/uploads/$1 !-f
+    RewriteRule ^uploads/(.*)$ frontend/uploads/$1 [L,QSA,NC]
+    RewriteRule ^(login|manager_quotations)\.php$ frontend/$1.php [L,QSA,NC]
     RewriteRule ^contact_send\.php$ frontend/contact_send.php [L,QSA,NC]
 </IfModule>

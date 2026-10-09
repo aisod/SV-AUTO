@@ -7,14 +7,26 @@ $clientId = GOOGLE_CLIENT_ID;
 $clientSecret = GOOGLE_CLIENT_SECRET;
 $redirectUri = GOOGLE_REDIRECT_URI;
 
+// TEMP DIAGNOSTIC - remove once Google sign-in works: show the real error instead of a blank HTTP 500.
+set_exception_handler(function (Throwable $e) {
+    http_response_code(500);
+    die('<h3>Google sign-in error</h3><pre>' . htmlspecialchars($e->getMessage()) . '</pre>');
+});
+
 if ($clientId === '' || $clientSecret === '') {
     die('Google OAuth is not configured. Copy backend/config/google.local.example.php to google.local.php.');
 }
 
 // Verify state token
-if (!isset($_GET['state']) || $_GET['state'] !== $_SESSION['google_state']) {
-    die('Invalid state parameter. Possible CSRF attack.');
+if (!isset($_GET['state'], $_SESSION['google_state']) || !hash_equals($_SESSION['google_state'], (string) $_GET['state'])) {
+    // TEMP DIAGNOSTIC - remove once Google sign-in works.
+    die('Invalid state parameter. Possible CSRF attack.'
+        . '<br><small>debug: cookie_sent=' . (isset($_COOKIE[session_name()]) ? 'yes' : 'NO')
+        . ', session_has_state=' . (isset($_SESSION['google_state']) ? 'yes' : 'NO')
+        . ', host=' . htmlspecialchars((string) ($_SERVER['HTTP_HOST'] ?? ''))
+        . ', save_path_writable=' . (is_writable(session_save_path() ?: sys_get_temp_dir()) ? 'yes' : 'NO') . '</small>');
 }
+unset($_SESSION['google_state']);
 
 // Check for authorization code
 if (!isset($_GET['code'])) {
@@ -132,11 +144,12 @@ if ($existingClient) {
         
         $stmt = $pdo->prepare("
             INSERT INTO clients (
-                google_id, first_name, last_name, email, password_hash, role, status, created_at
-            ) VALUES (?, ?, ?, ?, ?, 'client', 'pending', NOW())
+                google_id, name, first_name, last_name, email, password_hash, role, status, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, 'client', 'pending', NOW())
         ");
-        
-        $stmt->execute([$googleId, $firstName, $lastName, $email, $passwordHash]);
+
+        $displayName = trim($firstName . ' ' . $lastName) ?: $email;
+        $stmt->execute([$googleId, $displayName, $firstName, $lastName, $email, $passwordHash]);
         
         $newClientId = $pdo->lastInsertId();
         

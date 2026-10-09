@@ -114,6 +114,44 @@ $business = getBusiness();
             --brand-primary-light: #FFB52E;
             --brand-primary-subtle: #FFF5E0;
         }
+
+        /* Customer portal sidebar menu (these classes had no base styling, so items sat cramped together) */
+        .client-portal .erp-sidebar-nav { padding: 16px 12px 24px; }
+        .client-portal .erp-menu-group { display: flex; flex-direction: column; gap: 6px; }
+        .client-portal .erp-menu-label {
+            padding: 4px 12px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #64748b;
+        }
+        .client-portal .erp-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            color: #334155;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.18s ease;
+        }
+        .client-portal .erp-menu-item i {
+            width: 20px;
+            text-align: center;
+            font-size: 15px;
+            color: #64748b;
+            flex-shrink: 0;
+            transition: color 0.2s ease;
+        }
+        .client-portal .erp-menu-item:hover { background: #f1f5f9; color: #0f172a; transform: translateX(3px); }
+        .client-portal .erp-menu-item:hover i { color: #334155; }
+        .client-portal .erp-menu-item.active { font-weight: 600; }
+        .client-portal .erp-menu-item.active i { color: #b45309; }
     </style>
 <style>
     .erp-page-header .erp-breadcrumb { display: none !important; }

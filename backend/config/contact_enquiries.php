@@ -127,22 +127,22 @@ function erp_find_or_create_client_from_enquiry(PDO $pdo, array $enquiry, int $u
 function erp_send_contact_enquiry_reply(string $toEmail, string $recipientName, string $subject, string $message, array $business = []): array
 {
     if (!function_exists('erp_mail_config_loaded') || !erp_mail_config_loaded()) {
-        return ['ok' => false, 'error' => 'Email is not configured. Copy Config/mail.example.php to Config/mail.php and add SMTP details.'];
+        return ['ok' => false, 'error' => 'Email is not configured. Copy config/mail.example.php to config/mail.php and add SMTP details.'];
     }
 
     if (!filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
         return ['ok' => false, 'error' => 'The customer email address is not valid.'];
     }
 
-    $phpmailerPath = dirname(__DIR__) . '/Libraries/PHPMailer/src/PHPMailer.php';
+    $phpmailerPath = dirname(__DIR__) . '/libraries/PHPMailer/src/PHPMailer.php';
     if (!is_file($phpmailerPath)) {
         return ['ok' => false, 'error' => 'PHPMailer is not installed.'];
     }
 
     try {
-        require_once dirname(__DIR__) . '/Libraries/PHPMailer/src/Exception.php';
-        require_once dirname(__DIR__) . '/Libraries/PHPMailer/src/PHPMailer.php';
-        require_once dirname(__DIR__) . '/Libraries/PHPMailer/src/SMTP.php';
+        require_once dirname(__DIR__) . '/libraries/PHPMailer/src/Exception.php';
+        require_once dirname(__DIR__) . '/libraries/PHPMailer/src/PHPMailer.php';
+        require_once dirname(__DIR__) . '/libraries/PHPMailer/src/SMTP.php';
 
         $fromName = defined('MAIL_FROM_NAME') ? MAIL_FROM_NAME : (string) ($business['name'] ?? 'SV Auto Truck Repair');
         $fromEmail = defined('MAIL_FROM_EMAIL') ? MAIL_FROM_EMAIL : MAIL_USERNAME;

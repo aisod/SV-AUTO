@@ -1,0 +1,9 @@
+# Pages link to each other with plain file names (resolved against <base href=".../Admin/">),
+# but the files live in module folders (Inventory/, Employee/, ...). When /Admin/<name>.php
+# does not exist, route.php finds it in the right folder and redirects there.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^([A-Za-z0-9_]+\.php)$ route.php?f=$1 [L,QSA]
+</IfModule>

@@ -150,7 +150,7 @@ table{width:100%;border-collapse:collapse;table-layout:fixed} td,th{border:1px s
 </style>
 <div class="erp-page-header">
     <div class="erp-breadcrumb">
-        <a href="/SV Auto Truck Repair/Admin/dashboard.php"><i class="fas fa-home"></i> Home</a>
+        <a href="<?= htmlspecialchars(app_url('Admin/dashboard.php')) ?>"><i class="fas fa-home"></i> Home</a>
         <span class="erp-breadcrumb-separator">/</span>
         <span class="erp-breadcrumb-current">Job Card</span>
         <span class="erp-breadcrumb-separator">/</span>
@@ -247,10 +247,10 @@ table{width:100%;border-collapse:collapse;table-layout:fixed} td,th{border:1px s
 </div>
 <div class="tools">
     <div class="tool-group">
-        <a class="aq-s1-btn aq-s1-btn--gray" href="/SV Auto Truck Repair/Admin/JobCard/job_card_preview.php?id=<?php echo (int)$id; ?>&blank=1&autoprint=1"><i class="fas fa-print"></i> Print Blank</a>
+        <a class="aq-s1-btn aq-s1-btn--gray" href="<?= htmlspecialchars(app_url('Admin/JobCard/job_card_preview.php')) ?>?id=<?php echo (int)$id; ?>&blank=1&autoprint=1"><i class="fas fa-print"></i> Print Blank</a>
     </div>
     <div class="tool-group">
-        <a class="aq-s1-btn aq-s1-btn--blue" href="/SV Auto Truck Repair/Admin/JobCard/add_job_card.php?edit_id=<?php echo (int)$id; ?>"><i class="fas fa-pen"></i> Edit Job Card</a>
+        <a class="aq-s1-btn aq-s1-btn--blue" href="<?= htmlspecialchars(app_url('Admin/JobCard/add_job_card.php')) ?>?edit_id=<?php echo (int)$id; ?>"><i class="fas fa-pen"></i> Edit Job Card</a>
     </div>
 </div>
 </div>

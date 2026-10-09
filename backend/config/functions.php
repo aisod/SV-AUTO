@@ -944,7 +944,7 @@ function erp_mail_config_loaded(): bool
     if ($loaded !== null) {
         return $loaded;
     }
-    $mailFile = dirname(__DIR__) . '/Config/mail.php';
+    $mailFile = dirname(__DIR__) . '/config/mail.php';
     if (is_file($mailFile)) {
         require_once $mailFile;
     }
@@ -958,18 +958,18 @@ function erp_mail_config_loaded(): bool
 function erp_send_password_reset_email(string $toEmail, string $recipientName, string $resetUrl): array
 {
     if (!erp_mail_config_loaded()) {
-        return ['ok' => false, 'error' => 'Email is not configured. Copy Config/mail.example.php to Config/mail.php and add SMTP details.'];
+        return ['ok' => false, 'error' => 'Email is not configured. Copy config/mail.example.php to config/mail.php and add SMTP details.'];
     }
 
-    $phpmailerPath = dirname(__DIR__) . '/Libraries/PHPMailer/src/PHPMailer.php';
+    $phpmailerPath = dirname(__DIR__) . '/libraries/PHPMailer/src/PHPMailer.php';
     if (!is_file($phpmailerPath)) {
         return ['ok' => false, 'error' => 'PHPMailer is not installed.'];
     }
 
     try {
-        require_once dirname(__DIR__) . '/Libraries/PHPMailer/src/Exception.php';
-        require_once dirname(__DIR__) . '/Libraries/PHPMailer/src/PHPMailer.php';
-        require_once dirname(__DIR__) . '/Libraries/PHPMailer/src/SMTP.php';
+        require_once dirname(__DIR__) . '/libraries/PHPMailer/src/Exception.php';
+        require_once dirname(__DIR__) . '/libraries/PHPMailer/src/PHPMailer.php';
+        require_once dirname(__DIR__) . '/libraries/PHPMailer/src/SMTP.php';
 
         $mail = new PHPMailer\PHPMailer\PHPMailer(true);
         $mail->SMTPDebug = 0;
@@ -1008,6 +1008,61 @@ function erp_send_password_reset_email(string $toEmail, string $recipientName, s
     } catch (Exception $e) {
         error_log('erp_send_password_reset_email: ' . $e->getMessage());
         return ['ok' => false, 'error' => 'Email could not be sent. Check mail settings.'];
+    }
+}
+
+/**
+ * Tell a customer their portal account was approved.
+ *
+ * @return array{ok:bool,error:?string}
+ */
+function erp_send_client_approved_email(string $toEmail, string $recipientName, string $loginUrl): array
+{
+    if (!filter_var($toEmail, FILTER_VALIDATE_EMAIL)) {
+        return ['ok' => false, 'error' => 'The customer email address is not valid.'];
+    }
+    if (!erp_mail_config_loaded()) {
+        return ['ok' => false, 'error' => 'Email is not configured (backend/config/mail.php is missing).'];
+    }
+    $phpmailerPath = dirname(__DIR__) . '/libraries/PHPMailer/src/PHPMailer.php';
+    if (!is_file($phpmailerPath)) {
+        return ['ok' => false, 'error' => 'PHPMailer is not installed.'];
+    }
+
+    try {
+        require_once dirname(__DIR__) . '/libraries/PHPMailer/src/Exception.php';
+        require_once dirname(__DIR__) . '/libraries/PHPMailer/src/PHPMailer.php';
+        require_once dirname(__DIR__) . '/libraries/PHPMailer/src/SMTP.php';
+
+        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+        $mail->SMTPDebug = 0;
+        $mail->isSMTP();
+        $mail->Host = MAIL_HOST;
+        $mail->SMTPAuth = true;
+        $mail->Username = MAIL_USERNAME;
+        $mail->Password = MAIL_PASSWORD;
+        $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = (int) MAIL_PORT;
+        $mail->CharSet = 'UTF-8';
+        $mail->setFrom(MAIL_FROM_EMAIL, MAIL_FROM_NAME);
+        $mail->addAddress($toEmail, $recipientName);
+        $mail->isHTML(true);
+        $mail->Subject = 'Your SV Auto account has been approved';
+        $safeName = htmlspecialchars($recipientName !== '' ? $recipientName : 'there', ENT_QUOTES, 'UTF-8');
+        $safeUrl = htmlspecialchars($loginUrl, ENT_QUOTES, 'UTF-8');
+        $mail->Body = '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;">'
+            . '<h2>Your account is approved</h2>'
+            . '<p>Hello ' . $safeName . ',</p>'
+            . '<p>Good news - your SV Auto Truck Repair account has been approved. You can now sign in to view your quotations and invoices.</p>'
+            . '<p><a href="' . $safeUrl . '" style="background:#F7A100;color:#fff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:bold;">Sign in</a></p>'
+            . '<p style="color:#888;font-size:12px;">' . $safeUrl . '</p>'
+            . '</div>';
+        $mail->AltBody = "Hello " . ($recipientName !== '' ? $recipientName : 'there') . ",\n\nYour SV Auto Truck Repair account has been approved. Sign in here:\n{$loginUrl}\n";
+        $mail->send();
+        return ['ok' => true, 'error' => null];
+    } catch (Throwable $e) {
+        error_log('erp_send_client_approved_email: ' . $e->getMessage());
+        return ['ok' => false, 'error' => 'Email could not be sent. Check the mail settings.'];
     }
 }
 

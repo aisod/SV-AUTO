@@ -5,7 +5,7 @@ require_once __DIR__ . '/../../../backend/config/functions.php';
 require_once __DIR__ . '/../Auth/auth.php';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header('Location: job_card.php?error=Invalid job card ID');
+    header('Location: ../JobCard/job_card.php?error=Invalid job card ID');
     exit;
 }
 
@@ -23,7 +23,7 @@ $stmt->execute([$job_card_id]);
 $job_card = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$job_card) {
-    header('Location: job_card.php?error=Job card not found');
+    header('Location: ../JobCard/job_card.php?error=Job card not found');
     exit;
 }
 
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $pdo->commit();
         
-        header("Location: view_job_card.php?id=$job_card_id&success=Service updated successfully");
+        header("Location: ../JobCard/view_job_card.php?id=$job_card_id&success=Service updated successfully");
         exit;
         
     } catch (Exception $e) {
@@ -121,9 +121,9 @@ include __DIR__ . '/../includes/header.php';
     <div class="erp-breadcrumb">
         <a href="dashboard.php"><i class="fas fa-home"></i> Home</a>
         <span class="erp-breadcrumb-separator">/</span>
-        <a href="job_card.php">Job Cards</a>
+        <a href="JobCard/job_card.php">Job Cards</a>
         <span class="erp-breadcrumb-separator">/</span>
-        <a href="view_job_card.php?id=<?= $job_card_id ?>">View Job Card</a>
+        <a href="JobCard/view_job_card.php?id=<?= $job_card_id ?>">View Job Card</a>
         <span class="erp-breadcrumb-separator">/</span>
         <span class="erp-breadcrumb-current">Update Service</span>
     </div>
@@ -225,7 +225,7 @@ include __DIR__ . '/../includes/header.php';
             </div>
 
             <div class="erp-form-actions erp-mt-6">
-                <a href="view_job_card.php?id=<?= $job_card_id ?>" class="erp-btn erp-btn-secondary">
+                <a href="JobCard/view_job_card.php?id=<?= $job_card_id ?>" class="erp-btn erp-btn-secondary">
                     <i class="fas fa-times"></i> Cancel
                 </a>
                 <button type="submit" class="erp-btn erp-btn-primary">

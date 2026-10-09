@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // First check users table (admin, manager, etc.)
         $stmt = $pdo->prepare("
-            SELECT u.id, u.username, u.email, u.password, u.role_id, r.name AS role_name
+            SELECT u.*, r.name AS role_name
             FROM users u
             JOIN roles r ON u.role_id = r.id
             WHERE u.username = ? OR u.email = ?
@@ -38,7 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$username, $username]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && password_verify($password, $user['password'])) {
+        // Only these roles have a working area; Technician / Finance / HR logins are not offered (their code is kept).
+        $roleAllowed = $user && in_array(strtolower((string) $user['role_name']), ['admin', 'manager', 'client'], true);
+        $roleBlocked = $user && !$roleAllowed && password_verify($password, $user['password']);
+        if ($user && $roleAllowed && password_verify($password, $user['password']) && (int) ($user['is_active'] ?? 1) === 1) {
             $_SESSION['user_id']     = $user['id'];
             $_SESSION['username']    = $user['username'];
             $_SESSION['email']       = $user['email'];
@@ -91,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $message = "Account status error. Please contact support.";
                 }
             } else {
-                $message = "Invalid email or password.";
+                $message = $roleBlocked ? "This account type is not enabled. Please contact the administrator." : "Invalid email or password.";
             }
         }
     }

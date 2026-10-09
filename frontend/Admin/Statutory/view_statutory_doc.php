@@ -11,9 +11,21 @@ if (empty($file_url)) {
     die('No file specified');
 }
 
-$file_path = __DIR__ . '/../' . $file_url;
+// Only serve files that live inside Admin/uploads/ (blocks ../ tricks such as ../../backend/config/db.local.php),
+// and only to staff — customers also have sessions.
+$role = strtolower((string) ($_SESSION['role_name'] ?? ''));
+if ($role === '' || $role === 'client') {
+    http_response_code(403);
+    die('Forbidden');
+}
 
-if (!file_exists($file_path)) {
+$uploads_root = realpath(__DIR__ . '/../uploads');
+$file_path = realpath(__DIR__ . '/../' . $file_url);
+
+if ($uploads_root === false || $file_path === false
+    || strpos($file_path, $uploads_root . DIRECTORY_SEPARATOR) !== 0
+    || !is_file($file_path)) {
+    http_response_code(404);
     die('File not found');
 }
 

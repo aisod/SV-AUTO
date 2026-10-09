@@ -8,9 +8,19 @@ if (!isset($_SESSION['user_id']) || strtolower($_SESSION['role_name'] ?? '') !==
     exit;
 }
 
-// If status is approved, redirect to dashboard
-if (($_SESSION['status'] ?? 'pending') === 'approved') {
+// Re-check the real status in the database (the session copy is from sign-in time and goes stale).
+$stmt = $pdo->prepare('SELECT status FROM clients WHERE id = ?');
+$stmt->execute([(int) $_SESSION['user_id']]);
+$currentStatus = (string) ($stmt->fetchColumn() ?: 'pending');
+$_SESSION['status'] = $currentStatus;
+
+if ($currentStatus === 'approved') {
     header('Location: dashboard.php');
+    exit;
+}
+if ($currentStatus === 'blocked') {
+    session_destroy();
+    header('Location: ../login.php');
     exit;
 }
 
@@ -22,6 +32,7 @@ $firstName = $_SESSION['first_name'] ?? 'Client';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Pending Approval | SV Auto Services</title>
+    <meta http-equiv="refresh" content="30"><!-- re-check approval every 30 seconds -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>

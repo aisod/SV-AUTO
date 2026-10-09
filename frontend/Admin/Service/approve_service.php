@@ -12,7 +12,7 @@ if (!isset($_SESSION['user_id'])) {
 
 // Must have valid service ID
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header('Location: services.php?error=Invalid service ID');
+    header('Location: services_update.php?error=Invalid service ID');
     exit;
 }
 
@@ -24,12 +24,12 @@ $stmt->execute([$service_id]);
 $service = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$service) {
-    header('Location: services.php?error=Service not found');
+    header('Location: services_update.php?error=Service not found');
     exit;
 }
 
 if ($service['status'] === 'approved') {
-    header('Location: services.php?success=Service already approved');
+    header('Location: services_update.php?success=Service already approved');
     exit;
 }
 

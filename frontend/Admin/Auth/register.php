@@ -126,11 +126,12 @@ if (isset($_GET['code']) && isset($_GET['state'])) {
         // Insert client with pending status
         $stmt = $pdo->prepare("
             INSERT INTO clients (
-                google_id, first_name, last_name, email, password_hash, role, status, created_at
-            ) VALUES (?, ?, ?, ?, ?, 'client', 'pending', NOW())
+                google_id, name, first_name, last_name, email, password_hash, role, status, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, 'client', 'pending', NOW())
         ");
-        
-        $stmt->execute([$googleId, $firstName, $lastName, $email, $passwordHash]);
+
+        $displayName = trim($firstName . ' ' . $lastName) ?: $email;
+        $stmt->execute([$googleId, $displayName, $firstName, $lastName, $email, $passwordHash]);
         
         $clientId = $pdo->lastInsertId();
         
@@ -218,13 +219,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     // Insert client with pending status
                     $stmt = $pdo->prepare("
                         INSERT INTO clients (
-                            google_id, title, first_name, last_name, date_of_birth, gender, 
+                            google_id, name, title, first_name, last_name, date_of_birth, gender,
                             id_passport, email, phone, whatsapp, address, password_hash, role, status, created_at
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'client', 'pending', NOW())
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'client', 'pending', NOW())
                     ");
-                    
+
                     $stmt->execute([
-                        $googleId, $title, $firstName, $lastName, $dob ?: null, $gender,
+                        $googleId, trim($firstName . ' ' . $lastName) ?: $email, $title, $firstName, $lastName, $dob ?: null, $gender,
                         $idPassport, $email, $phone, $whatsapp, $address, $passwordHash
                     ]);
                     
