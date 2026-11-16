@@ -173,7 +173,7 @@ $file_size = file_exists($file_path) ? round(filesize($file_path)/1024, 1) . ' K
             
             <div class="button-group">
                 <?php if (file_exists($file_path)): ?>
-                <a href="../<?= htmlspecialchars($document['file_url']) ?>" target="_blank" class="btn btn-info">
+                <a href="view_statutory_doc.php?file=<?= htmlspecialchars(rawurlencode($document['file_url'])) ?>" target="_blank" class="btn btn-info">
                     👁️ View Document
                 </a>
                 <?php endif; ?>

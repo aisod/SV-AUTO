@@ -7,3 +7,9 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^([A-Za-z0-9_]+\.php)$ route.php?f=$1 [L,QSA]
 </IfModule>
+
+# Statutory documents are served only through Statutory/view_statutory_doc.php, which checks the role.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^uploads/statutory/ - [F,NC]
+</IfModule>

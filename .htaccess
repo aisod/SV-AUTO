@@ -34,3 +34,13 @@ DirectoryIndex index.php
     RewriteRule ^(login|manager_quotations)\.php$ frontend/$1.php [L,QSA,NC]
     RewriteRule ^contact_send\.php$ frontend/contact_send.php [L,QSA,NC]
 </IfModule>
+
+# Not served over the web: backend/ (config, setup and migration scripts, the schema) and PHP include
+# fragments, which only work when another page includes them.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(backend|Config)(/|$) - [F,NC]
+</IfModule>
+<FilesMatch "(\.inc\.php|^(header|footer|sidebar)(_manager)?\.php|^labor_tracking_section(_edit)?\.php)$">
+    Require all denied
+</FilesMatch>
