@@ -33,6 +33,12 @@ if (isset($_GET['reset']) && $_GET['reset'] === 'success') {
     $message = "Password reset successful! You can now sign in with your new password.";
 }
 
+// Notices left by the Google sign-in and sign-up handlers (suspended account, account already exists).
+if (!empty($_SESSION['google_message'])) {
+    $message = (string) $_SESSION['google_message'];
+    unset($_SESSION['google_message']);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $csrfOk = isset($_POST['csrf_token']) && hash_equals($loginCsrf, (string) $_POST['csrf_token']);
 

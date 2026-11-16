@@ -83,6 +83,14 @@ if (!function_exists('mgr_notif_link')) {
         if (str_starts_with($link, 'Manager/')) {
             return mgr_app_url($link);
         }
+        // Enquiry notices saved before enquiries went to admins only; managers have no enquiries page.
+        if (str_starts_with($link, 'Client/clients.php')) {
+            return '#';
+        }
+        // Client payment notices link to the Admin invoice page; managers have their own invoice view.
+        if (preg_match('#(?:^|/)Admin/(?:Invoice/)?view_invoice\.php\?id=(\d+)#', $link, $m)) {
+            return mgr_href('Invoice/view_invoice.php?id=' . $m[1]);
+        }
 
         return mgr_href($link);
     }

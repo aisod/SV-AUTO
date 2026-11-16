@@ -115,7 +115,8 @@ try {
         $pdo,
         'New website enquiry',
         trim($firstName . ' ' . $lastName) . ($service !== '' ? ' asked about ' . $service : ' sent a message'),
-        'Client/clients.php?tab=enquiries&enquiry_id=' . $enquiryId
+        'Client/clients.php?tab=enquiries&enquiry_id=' . $enquiryId,
+        ['admin'] // enquiries are handled on the Admin Clients page, which managers cannot open
     );
 } catch (Throwable $e) {
     error_log('Website enquiry save failed: ' . $e->getMessage());

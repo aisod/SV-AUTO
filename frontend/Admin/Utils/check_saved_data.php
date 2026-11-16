@@ -179,8 +179,8 @@ if (!isset($_SESSION['user_id'])) {
     }
     ?>
 
-    <a href="view_all_job_cards.php" class="back-link">← View All Job Cards</a>
-    <a href="add_job_card.php" class="back-link">+ Create New Job Card</a>
+    <a href="../JobCard/view_all_job_cards.php" class="back-link">← View All Job Cards</a>
+    <a href="../JobCard/add_job_card.php" class="back-link">+ Create New Job Card</a>
 </div>
 
 </body>

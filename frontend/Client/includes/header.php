@@ -1,5 +1,8 @@
 <?php
 // Client Portal Header
+// Buffer the page so pages including this header can still redirect after it has printed
+// (view_invoice.php / view_quotation.php send unknown or other clients' ids back to their list).
+ob_start();
 session_start();
 require_once __DIR__ . '/../../../backend/config/config.php';
 require_once __DIR__ . '/../../../backend/config/functions.php';

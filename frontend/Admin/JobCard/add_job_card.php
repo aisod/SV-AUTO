@@ -1931,7 +1931,17 @@ function openEditDeleteModal(event) {
     const modal = document.getElementById('jcEditDelModal');
     const confirmBtn = document.getElementById('jcEditDelConfirmBtn');
     const deleteLink = document.getElementById('jc-edit-del-btn');
-    if (confirmBtn && deleteLink) confirmBtn.href = deleteLink.href;
+    if (confirmBtn && deleteLink) {
+        // Deleting changes data, so it is sent as a POST (delete_job_card.php refuses GET).
+        confirmBtn.onclick = function (e) {
+            e.preventDefault();
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = deleteLink.href;
+            document.body.appendChild(form);
+            form.submit();
+        };
+    }
     if (modal) modal.classList.add('show');
     return false;
 }

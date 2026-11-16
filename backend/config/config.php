@@ -70,9 +70,8 @@ if (PHP_SAPI !== 'cli') {
         $portalOpen = $portal === 'Admin'
             && (in_array($portalPage, ['login.php', 'logout.php', 'route.php'], true) || strpos($portalPage, 'Auth/') === 0);
 
-        // Admin pages the other portals link to.
+        // Admin page the client portal calls (its header marks notifications read).
         $adminShared = [
-            'manager' => ['settings.php'],
             'client' => ['Utils/mark_notification_read.php'],
         ];
         $portalAllowed = $portal === 'Admin'

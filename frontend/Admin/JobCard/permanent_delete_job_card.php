@@ -3,7 +3,7 @@ session_start();
 require_once __DIR__ . '/../../../backend/config/config.php';
 require_once __DIR__ . '/../../../backend/config/functions.php';
 
-if (!isset($_SESSION['user_id']) || !isset($_GET['id'])) {
+if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_GET['id'])) {
     header('Location: ../recycle-bin/recycle_bin.php?error=Invalid request');
     exit;
 }

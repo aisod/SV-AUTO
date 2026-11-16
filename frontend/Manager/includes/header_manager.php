@@ -43,7 +43,7 @@ erp_ensure_user_avatar_column();
 $mgr_user_avatar_web = erp_get_user_avatar_path($user_id);
 $mgr_user_avatar_src = $mgr_user_avatar_web ? mgr_app_url($mgr_user_avatar_web) : null;
 $mgr_user_avatar_initial = erp_user_avatar_initial($username);
-$mgr_profile_href = mgr_href('../Admin/settings.php#my-profile');
+$mgr_profile_href = mgr_href('settings.php#my-profile');
 $current_page = basename((string) ($_SERVER['PHP_SELF'] ?? ''));
 $page_title = isset($page_title) && trim((string) $page_title) !== '' ? trim((string) $page_title) : 'Manager';
 

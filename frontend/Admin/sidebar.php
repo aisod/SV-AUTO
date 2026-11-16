@@ -3,6 +3,7 @@
 if (session_status() === PHP_SESSION_NONE) session_start(); 
 require_once __DIR__ . '/../../backend/config/config.php';
 require_once __DIR__ . '/../../backend/config/functions.php';
+require_once __DIR__ . '/Auth/auth.php';
 
 // Get business name from database
 $business = getBusiness();
@@ -15,6 +16,8 @@ $businessName = htmlspecialchars($business['name'] ?? 'SV Auto Management');
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <?php // The links and logo below are relative to the Admin folder; pages using this sidebar live in module subfolders. ?>
+    <base href="<?= htmlspecialchars(admin_nav_base() . '/', ENT_QUOTES, 'UTF-8') ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SV Auto Management System</title>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">

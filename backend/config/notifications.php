@@ -268,10 +268,11 @@ function erp_notifications_header_feed(PDO $pdo, int $userId, callable $resolveL
     }
 }
 
-function notifyAdmins($pdo, $title, $message, $link = '') {
+function notifyAdmins($pdo, $title, $message, $link = '', array $roles = ['admin', 'manager']) {
     try {
-        // Get all admin users
-        $stmt = $pdo->query("SELECT u.id FROM users u JOIN roles r ON u.role_id = r.id WHERE LOWER(r.name) IN ('admin', 'manager')");
+        $placeholders = implode(',', array_fill(0, count($roles), '?'));
+        $stmt = $pdo->prepare("SELECT u.id FROM users u JOIN roles r ON u.role_id = r.id WHERE LOWER(r.name) IN ($placeholders)");
+        $stmt->execute($roles);
         $admins = $stmt->fetchAll(PDO::FETCH_COLUMN);
         
         $count = 0;

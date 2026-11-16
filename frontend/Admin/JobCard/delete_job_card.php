@@ -7,7 +7,7 @@ require_admin();
 
 $listUrl = app_url('Admin/JobCard/job_card.php');
 
-if (!isset($_SESSION['user_id']) || !isset($_GET['id'])) {
+if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_GET['id'])) {
     header('Location: ' . $listUrl . '?error=' . urlencode('Invalid request'));
     exit;
 }

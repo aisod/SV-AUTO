@@ -20,6 +20,7 @@ if ($clientEmail) {
 $quotationId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
 if (!$quotationId || !$clientId) {
+    ob_end_clean();
     header('Location: quotations.php');
     exit;
 }
@@ -40,6 +41,7 @@ $stmt->execute([$quotationId, $clientId]);
 $quote = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$quote) {
+    ob_end_clean();
     header('Location: quotations.php');
     exit;
 }

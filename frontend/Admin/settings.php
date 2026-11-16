@@ -97,7 +97,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['form_type'])) {
     exit;
 }
 
-include 'includes/header.php';
+if (($erp_settings_layout ?? 'admin') === 'manager') {
+    $page_title = 'Settings';
+    include __DIR__ . '/../Manager/includes/header_manager.php';
+} else {
+    include 'includes/header.php';
+}
 ?>
 
 <div class="erp-page-header erp-profile-page-header">
@@ -207,7 +212,7 @@ include 'includes/header.php';
             <div class="erp-card-body">
                 <p class="erp-profile-panel-intro">
                     Change your password while signed in. Locked out?
-                    <a href="Auth/forgot-password.php">Reset via email</a>.
+                    <a href="../Admin/Auth/forgot-password.php">Reset via email</a>.
                 </p>
                 <form method="POST" class="erp-profile-form" autocomplete="off">
                     <input type="hidden" name="form_type" value="profile_password">
@@ -305,4 +310,4 @@ include 'includes/header.php';
 })();
 </script>
 
-<?php include 'includes/footer.php'; ?>
+<?php include ($erp_settings_layout ?? 'admin') === 'manager' ? __DIR__ . '/../Manager/includes/footer_manager.php' : 'includes/footer.php'; ?>

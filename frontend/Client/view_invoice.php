@@ -23,6 +23,7 @@ if ($clientEmail) {
 $invoiceId = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
 if (!$invoiceId || !$clientId) {
+    ob_end_clean();
     header('Location: invoices.php');
     exit;
 }
@@ -50,6 +51,7 @@ $stmt->execute([$invoiceId, $clientId]);
 $inv = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$inv) {
+    ob_end_clean();
     header('Location: invoices.php');
     exit;
 }

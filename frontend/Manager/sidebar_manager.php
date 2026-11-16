@@ -72,7 +72,7 @@ if (!isset($current_page)) {
             </nav>
 
             <div class="erp-sidebar-footer">
-                <a href="<?php echo htmlspecialchars(mgr_href('../Admin/settings.php#my-profile'), ENT_QUOTES, 'UTF-8'); ?>" class="erp-nav-link erp-sidebar-foot-link">
+                <a href="<?php echo htmlspecialchars(mgr_href('settings.php#my-profile'), ENT_QUOTES, 'UTF-8'); ?>" class="erp-nav-link erp-sidebar-foot-link">
                     <i class="fas fa-cog" aria-hidden="true"></i>
                     <span>Settings</span>
                 </a>
