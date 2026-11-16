@@ -2,6 +2,7 @@
 session_start();
 require_once __DIR__ . '/../../../backend/config/config.php';
 require_once __DIR__ . '/../../../backend/config/functions.php';
+require_once __DIR__ . '/../Auth/auth.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../Auth/login.php');
@@ -48,6 +49,7 @@ $error   = $error ?? $_GET['error'] ?? '';
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <base href="<?= htmlspecialchars(admin_nav_base() . '/', ENT_QUOTES, 'UTF-8') ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Role • <?= htmlspecialchars($business['name'] ?? 'SV Auto') ?></title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">

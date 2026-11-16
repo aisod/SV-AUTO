@@ -11,9 +11,13 @@ if (!isset($_SESSION['user_id']) || !isset($_GET['id'])) {
 $job_card_id = (int)$_GET['id'];
 
 try {
-    // Permanently delete job card
-    $stmt = $pdo->prepare("DELETE FROM job_cards WHERE id = ?");
+    // Permanently delete job card, only once it is in the recycle bin
+    $stmt = $pdo->prepare("DELETE FROM job_cards WHERE id = ? AND deleted_at IS NOT NULL");
     $stmt->execute([$job_card_id]);
+    if ($stmt->rowCount() === 0) {
+        header('Location: ../recycle-bin/recycle_bin.php?error=' . urlencode('Job card is not in the recycle bin'));
+        exit;
+    }
 
     // Audit log
     $log = $pdo->prepare("INSERT INTO audit_logs (user_id, action, entity_type, entity_id) VALUES (?, 'permanent_delete_job_card', 'job_card', ?)");

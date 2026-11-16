@@ -76,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['status']     = 'pending';
                     $_SESSION['first_name'] = $client['first_name'];
                     $_SESSION['email']      = $client['email'];
-                    header('Location: ../Client/pending-approval.php');
+                    header('Location: ../../Client/pending-approval.php');
                     exit;
                 } elseif ($client['status'] === 'approved') {
                     // Approved - grant full access
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['first_name'] = $client['first_name'];
                     $_SESSION['last_name']  = $client['last_name'];
                     $_SESSION['email']      = $client['email'];
-                    header('Location: ../Client/dashboard.php');
+                    header('Location: ../../Client/dashboard.php');
                     exit;
                 } else {
                     // Unknown status
@@ -105,26 +105,26 @@ function getRoleRedirect($roleName) {
     
     // Map roles to their dashboards
     if (strpos($roleName, 'admin') !== false) {
-        return 'dashboard.php';
+        return '../dashboard.php';
     }
     if (strpos($roleName, 'manager') !== false) {
-        return '../Manager/manager_dashboard.php';
+        return '../../Manager/manager_dashboard.php';
     }
     if (strpos($roleName, 'tech') !== false) {
         return '../Technician/technician_dashboard.php';
     }
     if (strpos($roleName, 'finance') !== false) {
-        return 'finance_dashboard.php';
+        return '../finance_dashboard.php';
     }
     if (strpos($roleName, 'hr') !== false) {
         return '../Hr/hr_dashboard.php';
     }
     if (strpos($roleName, 'client') !== false) {
-        return '../Client/dashboard.php';
+        return '../../Client/dashboard.php';
     }
     
     // Default fallback
-    return 'dashboard.php';
+    return '../dashboard.php';
 }
 ?>
 <!DOCTYPE html>

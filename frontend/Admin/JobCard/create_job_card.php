@@ -236,6 +236,10 @@ try {
     ];
 
     // ============= 5. INSERT/UPDATE JOB CARD =============
+    // The Admin form has no work date/time fields; an empty string is rejected by DATE/TIME columns in strict SQL mode.
+    $work_date = trim((string) ($_POST['work_date'] ?? '')) ?: null;
+    $work_start_time = trim((string) ($_POST['work_start_time'] ?? '')) ?: null;
+    $work_end_time = trim((string) ($_POST['work_end_time'] ?? '')) ?: null;
     if ($edit_id > 0) {
         $stmt = $pdo->prepare("
             UPDATE job_cards SET
@@ -265,9 +269,9 @@ try {
             trim($_POST['parts_supply'] ?? ''),
             json_encode($extra_data),
             trim($_POST['service_type'] ?? 'in_shop'),
-            trim($_POST['work_date'] ?? null),
-            trim($_POST['work_start_time'] ?? null),
-            trim($_POST['work_end_time'] ?? null),
+            $work_date,
+            $work_start_time,
+            $work_end_time,
             (float)($_POST['total_hours'] ?? 0),
             (float)($_POST['distance_km'] ?? 0),
             (float)($_POST['labor_rate_applied'] ?? 0),
@@ -293,9 +297,9 @@ try {
             trim($_POST['parts_supply'] ?? ''),
             json_encode($extra_data),
             trim($_POST['service_type'] ?? 'in_shop'),
-            trim($_POST['work_date'] ?? null),
-            trim($_POST['work_start_time'] ?? null),
-            trim($_POST['work_end_time'] ?? null),
+            $work_date,
+            $work_start_time,
+            $work_end_time,
             (float)($_POST['total_hours'] ?? 0),
             (float)($_POST['distance_km'] ?? 0),
             (float)($_POST['labor_rate_applied'] ?? 0),

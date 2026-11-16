@@ -114,6 +114,13 @@ function rb_purge_job_cards(PDO $pdo, array $ids): int
     if ($ph === '') {
         return 0;
     }
+    // Only cards already in the recycle bin; otherwise the cascade below wipes a live card's quotations and invoices.
+    $binStmt = $pdo->prepare("SELECT id FROM job_cards WHERE id IN ($ph) AND deleted_at IS NOT NULL");
+    $binStmt->execute($ids);
+    [$ids, $ph] = rb_ids_placeholder($binStmt->fetchAll(PDO::FETCH_COLUMN));
+    if ($ph === '') {
+        return 0;
+    }
     $qStmt = $pdo->prepare("SELECT id FROM quotations WHERE job_card_id IN ($ph)");
     $qStmt->execute($ids);
     $linkedQuoteIds = $qStmt->fetchAll(PDO::FETCH_COLUMN);

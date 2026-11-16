@@ -4,26 +4,6 @@ $page_title = 'View Invoice';
 require_once __DIR__ . '/includes/header.php';
 require_once __DIR__ . '/../../backend/config/notifications.php';
 
-// Handle payment notification
-$paymentNotificationSent = false;
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'notify_payment') {
-    $invoiceId = filter_input(INPUT_POST, 'invoice_id', FILTER_VALIDATE_INT);
-    if ($invoiceId && isset($inv) && $inv['id'] == $invoiceId) {
-        $clientName = isset($inv['client_name']) ? $inv['client_name'] : 'Client';
-        $invNumber = isset($inv['invoice_number']) ? $inv['invoice_number'] : ('INV-' . str_pad($invoiceId, 6, '0', STR_PAD_LEFT));
-        $amount = isset($inv['amount']) ? $symbol . number_format($inv['amount'], 2) : 'N/A';
-        
-        $title = 'Payment Notification';
-        $message = 'Client ' . $clientName . ' has made payment for ' . $invNumber . ' of ' . $amount;
-        $link = '../Admin/view_invoice.php?id=' . $invoiceId;
-        
-        $notified = notifyAdmins($pdo, $title, $message, $link);
-        if ($notified > 0) {
-            $paymentNotificationSent = true;
-        }
-    }
-}
-
 // Get client email from session
 $clientEmail = $_SESSION['email'] ?? '';
 $clientId = null;
@@ -51,7 +31,7 @@ if (!$invoiceId || !$clientId) {
 $stmt = $pdo->prepare("
     SELECT 
         i.id, i.amount, i.status, i.created_at, i.paid_at, i.is_editable,
-        i.issue_date, i.due_date, i.notes, i.payment_method, i.payment_reference,
+        i.issued_date AS issue_date, i.due_date, i.notes, i.payment_method, i.payment_reference,
         i.details AS invoice_details,
         q.details AS quotation_details, q.id AS quotation_id,
         c.name AS client_name, c.phone AS client_phone,
@@ -78,6 +58,27 @@ if (!$inv) {
 $business = getBusiness();
 $currency = getCurrency();
 $symbol = isset($currency['symbol']) ? $currency['symbol'] : 'N$';
+
+// Handle payment notification
+$paymentNotificationSent = false;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'notify_payment') {
+    $invoiceId = filter_input(INPUT_POST, 'invoice_id', FILTER_VALIDATE_INT);
+    if ($invoiceId && isset($inv) && $inv['id'] == $invoiceId) {
+        $clientName = isset($inv['client_name']) ? $inv['client_name'] : 'Client';
+        $invNumber = isset($inv['invoice_number']) ? $inv['invoice_number'] : ('INV-' . str_pad($invoiceId, 6, '0', STR_PAD_LEFT));
+        $amount = isset($inv['amount']) ? $symbol . number_format($inv['amount'], 2) : 'N/A';
+        
+        $title = 'Payment Notification';
+        $message = 'Client ' . $clientName . ' has made payment for ' . $invNumber . ' of ' . $amount;
+        $link = '../Admin/view_invoice.php?id=' . $invoiceId;
+        
+        $notified = notifyAdmins($pdo, $title, $message, $link);
+        if ($notified > 0) {
+            $paymentNotificationSent = true;
+        }
+    }
+}
+
 $tax_rate = (float)getSetting('tax_rate', 15);
 
 $invoice_number = 'INV-' . str_pad($inv['id'], 6, '0', STR_PAD_LEFT);

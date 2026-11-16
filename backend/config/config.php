@@ -1,6 +1,19 @@
 <?php
-// Start session if not already started
+// The session cookie gets HttpOnly and SameSite whatever the host's php.ini says. Most pages call
+// session_start() before loading this file, so their session is reopened with these settings.
+$sessionIsHttps = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || strtolower((string) ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '')) === 'https';
+if (session_status() === PHP_SESSION_ACTIVE && !headers_sent()) {
+    session_write_close();
+}
 if (session_status() === PHP_SESSION_NONE) {
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'secure' => $sessionIsHttps,
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
     session_start();
 }
 
@@ -23,6 +36,59 @@ if (!function_exists('app_is_production')) {
     function app_is_production(): bool {
         $host = preg_replace('/:\d+$/', '', (string) ($_SERVER['HTTP_HOST'] ?? ''));
         return (bool) preg_match('/^(www\.)?' . preg_quote(APP_PRODUCTION_HOST, '/') . '$/i', $host);
+    }
+}
+
+// Every page loads this file, so portal access is enforced here rather than trusting each page's
+// own check (most only checked that *some* session exists, letting clients open Admin pages).
+if (PHP_SAPI !== 'cli') {
+    $requestScript = str_replace('\\', '/', (string) ($_SERVER['SCRIPT_NAME'] ?? ''));
+
+    // backend/ holds config, setup and migration scripts: run them from the command line only.
+    if (preg_match('#/backend/#i', $requestScript)) {
+        http_response_code(404);
+        exit('Not found');
+    }
+
+    // Cross-site form posts: browsers send Origin (or Referer) with them, so a foreign one is refused.
+    if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+        $postSource = (string) ($_SERVER['HTTP_ORIGIN'] ?? $_SERVER['HTTP_REFERER'] ?? '');
+        if ($postSource !== '') {
+            $sourceHost = (string) parse_url($postSource, PHP_URL_HOST);
+            $sourcePort = parse_url($postSource, PHP_URL_PORT);
+            $sourceAuthority = $sourceHost . ($sourcePort ? ':' . $sourcePort : '');
+            if (strcasecmp($sourceAuthority, (string) ($_SERVER['HTTP_HOST'] ?? '')) !== 0) {
+                http_response_code(403);
+                exit('Cross-site request refused.');
+            }
+        }
+    }
+
+    if (preg_match('#^(.*)/(Admin|Manager)/(.+)$#', $requestScript, $portalMatch)) {
+        [, $portalPrefix, $portal, $portalPage] = $portalMatch;
+        $portalRole = strtolower((string) ($_SESSION['role_name'] ?? ''));
+        $portalOpen = $portal === 'Admin'
+            && (in_array($portalPage, ['login.php', 'logout.php', 'route.php'], true) || strpos($portalPage, 'Auth/') === 0);
+
+        // Admin pages the other portals link to.
+        $adminShared = [
+            'manager' => ['settings.php'],
+            'client' => ['Utils/mark_notification_read.php'],
+        ];
+        $portalAllowed = $portal === 'Admin'
+            ? $portalRole === 'admin' || in_array($portalPage, $adminShared[$portalRole] ?? [], true)
+            : in_array($portalRole, ['admin', 'manager'], true);
+
+        if (!$portalOpen && !(isset($_SESSION['user_id']) && $portalAllowed)) {
+            $portalHome = [
+                'admin' => '/Admin/dashboard.php',
+                'manager' => '/Manager/manager_dashboard.php',
+                'client' => '/Client/dashboard.php',
+            ];
+            $portalTarget = isset($_SESSION['user_id']) ? ($portalHome[$portalRole] ?? '/login.php') : '/login.php';
+            header('Location: ' . $portalPrefix . $portalTarget);
+            exit;
+        }
     }
 }
 

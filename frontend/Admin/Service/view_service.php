@@ -38,7 +38,7 @@ $stmt->execute([$service_id]);
 $service = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$service) {
-    die('<h2 style="text-align:center;color:#c62828;padding:100px;font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">Service Schedule Not Found</h2>');
+    die('<h2 style="text-align:center;color:#c62828;padding:100px;font-family:\'Inter\',-apple-system,BlinkMacSystemFont,\'Segoe UI\',Roboto,sans-serif;">Service Schedule Not Found</h2>');
 }
 
 $business = getBusiness();

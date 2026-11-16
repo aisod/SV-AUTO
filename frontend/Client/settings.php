@@ -58,15 +58,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $message = "New password must be at least 6 characters.";
                 $success = false;
             } else {
-                // Verify current password
-                $stmt = $pdo->prepare("SELECT password FROM users WHERE id = ?");
-                $stmt->execute([$_SESSION['user_id']]);
-                $userPassword = $stmt->fetchColumn();
-                
-                if (password_verify($currentPassword, $userPassword)) {
+                // Verify current password (clients sign in with clients.password_hash, not the staff users table)
+                $stmt = $pdo->prepare("SELECT password_hash FROM clients WHERE id = ?");
+                $stmt->execute([$clientId]);
+                $userPassword = (string) $stmt->fetchColumn();
+
+                if ($clientId && password_verify($currentPassword, $userPassword)) {
                     $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-                    $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE id = ?");
-                    $stmt->execute([$hashedPassword, $_SESSION['user_id']]);
+                    $stmt = $pdo->prepare("UPDATE clients SET password_hash = ? WHERE id = ?");
+                    $stmt->execute([$hashedPassword, $clientId]);
                     $success = true;
                     $message = "Password updated successfully!";
                 } else {

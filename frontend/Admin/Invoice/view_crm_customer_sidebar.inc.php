@@ -1,6 +1,6 @@
 <?php
 /** Customer Information sidebar — data from quotation snapshot. */
-$quotationEditUrl = $quotationId > 0 ? '../Quotation/add_quotation.php?id=' . (int) $quotationId : '';
+$quotationEditUrl = $quotationId > 0 ? 'Quotation/add_quotation.php?id=' . (int) $quotationId : '';
 $badgeClass = $statusClass === 'paid' ? 'paid' : ($statusClass === 'partial' ? 'partial' : 'unpaid');
 $invIsUnpaid = ($invStatus === 'unpaid');
 $invIsPaid = ($invStatus === 'paid');

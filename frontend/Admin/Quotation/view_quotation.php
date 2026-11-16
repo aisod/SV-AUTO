@@ -733,7 +733,7 @@ include __DIR__ . '/../includes/header.php';
             
             <?php if ($existing_invoice): ?>
                 <div style="margin-top:20px;display:flex;gap:12px;">
-                    <a href="../view_invoice.php?id=<?= $existing_invoice ?>" class="btn" style="background:#2e7d32;text-decoration:none;">
+                    <a href="view_invoice.php?id=<?= $existing_invoice ?>" class="btn" style="background:#2e7d32;text-decoration:none;">
                         <i class="fas fa-file-invoice-dollar"></i> View Invoice
                     </a>
                     <a href="../Invoice/add_invoice.php?id=<?= $existing_invoice ?>" class="btn" style="background:#f59e0b;text-decoration:none;">
@@ -787,7 +787,7 @@ include __DIR__ . '/../includes/header.php';
             $existingInvoice = $checkInvoice->fetch(PDO::FETCH_ASSOC);
             ?>
             <?php if ($existingInvoice): ?>
-                <a href="../view_invoice.php?id=<?php echo $existingInvoice['id']; ?>" class="btn" style="background:#9C27B0;">
+                <a href="view_invoice.php?id=<?php echo $existingInvoice['id']; ?>" class="btn" style="background:#9C27B0;">
                     <i class="fas fa-file-invoice"></i> View Invoice
                 </a>
             <?php else: ?>

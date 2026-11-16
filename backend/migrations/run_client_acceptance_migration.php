@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../../../backend/config/config.php';
+require_once __DIR__ . '/../config/config.php';
 
 echo "<h2>Running Client Acceptance Migration</h2>";
 

@@ -40,15 +40,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newPassword = $_POST['new_password'] ?? '';
     $confirmPassword = $_POST['confirm_password'] ?? '';
     
+    // The separate password form posts only the password fields.
+    $isPasswordForm = !isset($_POST['first_name']);
+
     // Validate required fields
-    if (empty($title) || empty($firstName) || empty($lastName)) {
+    if (!$isPasswordForm && (empty($title) || empty($firstName) || empty($lastName))) {
         $error = "Title, first name and last name are required.";
     } elseif (!filter_var($clientEmail, FILTER_VALIDATE_EMAIL)) {
         $error = "Invalid email address.";
     } else {
         try {
             // Update client record with all fields
-            if ($clientId) {
+            if ($clientId && !$isPasswordForm) {
                 $stmt = $pdo->prepare("
                     UPDATE clients 
                     SET title = ?, first_name = ?, last_name = ?, date_of_birth = ?, gender = ?, 
@@ -99,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
             
             if (!$error) {
-                $message = "Profile updated successfully.";
+                $message = $isPasswordForm ? "Password updated successfully." : "Profile updated successfully.";
                 
                 // Refresh client data
                 if ($clientId) {
